@@ -80,7 +80,8 @@ CRYPTOPP_TEST_FILES := \
 #####################################################################
 # ARM A-32 source file
 
-ifeq ($(TARGET_ARCH),ARM)
+$(info TARGET_ARCH: $(TARGET_ARCH))
+ifeq ($(TARGET_ARCH),arm)
     CRYPTOPP_SRC_FILES += aes-armv4.S
     LOCAL_ARM_MODE := arm
     LOCAL_FILTER_ASM :=
