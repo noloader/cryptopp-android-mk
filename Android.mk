@@ -137,4 +137,7 @@ LOCAL_LDFLAGS := -Wl,--as-needed
 LOCAL_STATIC_LIBRARIES := cryptopp_static
 include $(BUILD_EXECUTABLE)
 
+#####################################################################
+# Android cpuFeatures library
+
 $(call import-module,android/cpufeatures)
