@@ -42,7 +42,7 @@ CRYPTOPP_SRC_FILES := \
     gcm-simd.cpp gcm.cpp gf256.cpp gf2_32.cpp gf2n.cpp gfpcrypt.cpp gost.cpp \
     gzip.cpp hc128.cpp hc256.cpp hex.cpp hight.cpp hmac.cpp hrtimer.cpp \
     ida.cpp idea.cpp iterhash.cpp kalyna.cpp kalynatab.cpp keccak.cpp \
-    keccakc.cpp lea-simd.cpp lea.cpp lsh.cpp luc.cpp mars.cpp marss.cpp \
+    keccakc.cpp lea-simd.cpp lea.cpp luc.cpp mars.cpp marss.cpp \
     md2.cpp md4.cpp md5.cpp misc.cpp modes.cpp mqueue.cpp mqv.cpp nbtheory.cpp \
     neon-simd.cpp oaep.cpp ospstore.cpp osrng.cpp padlkrng.cpp panama.cpp \
     pkcspad.cpp poly1305.cpp polynomi.cpp ppc-simd.cpp pssr.cpp pubkey.cpp \
