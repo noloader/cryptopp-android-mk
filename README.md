@@ -48,12 +48,12 @@ Before running the Autotools project please ensure you have the following instal
 # Integration
 The Android build files require an unusal filesystem layout. Your Crypto++ source files will be located in a folder like `<project root>/cryptopp-7.1`. `Android.mk` and `Application.mk` will be located in a folder like `<project root>/jni`. You must set `CRYPTOPP_ROOT` in `Android.mk` to a value like `../cryptopp-7.1/`. The trailing slash is important because is uses GNU Make's `addprefix` which is a simple concatenation.
 
-To run the script issue `ndk-build` with several NDK build variables set. `NDK_LOG` is optional but helps diagnose problems. `NDK_PROJECT_PATH` and `NDK_APPLICATION_MK` are required when not using Android default paths.
+To run the script issue `ndk-build` with several NDK build variables set. `NDK_PROJECT_PATH` and `NDK_APPLICATION_MK` are required when not using Android default paths.
 
     cd cryptopp
-    NDK_LOG=1 ndk-build V=1 NDK_PROJECT_PATH="$PWD" NDK_APPLICATION_MK="$PWD/Application.mk"
+    ndk-build V=1 NDK_PROJECT_PATH="$PWD" NDK_APPLICATION_MK="$PWD/Application.mk"
 
-According to [NDK Build](http://developer.android.com/ndk/guides/ndk-build) you should set `NDK_DEBUG=1` for debug builds and `NDK_DEBUG=0` for release builds. You can also set `V=1` for verbose NDK builds which will show the command line.
+According to [NDK Build](http://developer.android.com/ndk/guides/ndk-build) you should set `NDK_DEBUG=1` for debug builds and `NDK_DEBUG=0` for release builds. You can also set `NDK_LOG=1` and V=1` for verbose NDK builds which to help with diagnostics.
 
 # Collaboration
 We would like all maintainers to be collaborators on this repo. If you are a maintainer then please contact us so we can send you an invite.
