@@ -80,7 +80,7 @@ LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
 
 LOCAL_STATIC_LIBRARIES := cpufeatures
-$(call import-module,android/cpufeatures)
+# $(call import-module,android/cpufeatures)
 
 include $(BUILD_SHARED_LIBRARY)
 
@@ -96,7 +96,7 @@ LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
 
 LOCAL_STATIC_LIBRARIES := cpufeatures
-$(call import-module,android/cpufeatures)
+# $(call import-module,android/cpufeatures)
 
 include $(BUILD_STATIC_LIBRARY)
 

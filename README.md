@@ -50,7 +50,7 @@ The Android build files require an unusal filesystem layout. Your Crypto++ sourc
 
 To run the script issue `ndk-build` with several NDK build variables set. `NDK_LOG` is optional but helps diagnose problems. `NDK_PROJECT_PATH` and `NDK_APPLICATION_MK` are required when not using Android default paths.
 
-NDK_LOG=1 ndk-build NDK_PROJECT_PATH="$PWD" NDK_APPLICATION_MK="$PWD/Application.mk"
+    NDK_LOG=1 ndk-build NDK_PROJECT_PATH="$PWD" NDK_APPLICATION_MK="$PWD/Application.mk"
 
 # Collaboration
 We would like all maintainers to be collaborators on this repo. If you are a maintainer then please contact us so we can send you an invite.
