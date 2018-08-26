@@ -22,7 +22,7 @@ LOCAL_PATH := $(call my-dir)
 CRYPTOPP_ROOT ?= ../cryptopp/
 
 ifeq ($(NDK_LOG),1)
-  ifeq($CRYPTOPP_ROOT),)
+  ifeq ($CRYPTOPP_ROOT),)
     $(info Crypto++: CRYPTOPP_ROOT is empty)
   else
     $(info Crypto++: CRYPTOPP_ROOT is $(CRYPTOPP_ROOT))
