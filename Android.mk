@@ -61,8 +61,10 @@ CRYPTOPP_SRC_FILES := \
 #####################################################################
 # Test source files
 
+# Remove adhoc.cpp from this list
+
 CRYPTOPP_TEST_FILES := \
-    adhoc.cpp test.cpp bench1.cpp bench2.cpp bench3.cpp datatest.cpp \
+    test.cpp bench1.cpp bench2.cpp bench3.cpp datatest.cpp \
     dlltest.cpp fipsalgt.cpp validat0.cpp validat1.cpp validat2.cpp \
     validat3.cpp validat4.cpp validat5.cpp validat6.cpp validat7.cpp \
     validat8.cpp validat9.cpp validat10.cpp regtest1.cpp regtest2.cpp \
@@ -91,7 +93,6 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
 LOCAL_STATIC_LIBRARIES := cpufeatures
 
 include $(BUILD_SHARED_LIBRARY)
-$(call import-module,android/cpufeatures)
 
 #####################################################################
 # Static library
@@ -107,7 +108,6 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
 LOCAL_STATIC_LIBRARIES := cpufeatures
 
 include $(BUILD_STATIC_LIBRARY)
-$(call import-module,android/cpufeatures)
 
 #####################################################################
 # Test program
@@ -117,6 +117,9 @@ LOCAL_MODULE := cryptest.exe
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_ROOT),$(CRYPTOPP_TEST_FILES))
 LOCAL_CPP_FEATURES := rtti exceptions
 
-LOCAL_STATIC_LIBRARIES := cryptopp_static cpufeatures
+LOCAL_STATIC_LIBRARIES := cryptopp_static
 include $(BUILD_EXECUTABLE)
+
+$(call import-module,android/cpufeatures)
+
 
