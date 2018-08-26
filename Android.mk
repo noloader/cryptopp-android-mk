@@ -16,15 +16,17 @@
 LOCAL_PATH := $(call my-dir)
 
 #####################################################################
-# CRYPTOPP_ROOT must include the trailing slash. The path used
-# below assumes Crypto++ source files are located in the root
-# of the project, and Android.mk is buried under jni/. Change
-# CRYPTOPP_ROOT to suit your taste, like ../cryptopp-7.1/.
+# Adjust CRYPTOPP_ROOT to suit your taste, like ../cryptopp-7.1/.
+# If CRYPTOPP_ROOT is not empty then must include the trailing slash.
 
 CRYPTOPP_ROOT ?= ../cryptopp/
 
 ifeq ($(NDK_LOG),1)
+  ifeq($CRYPTOPP_ROOT),)
+    $(info Crypto++: CRYPTOPP_ROOT is empty)
+  else
     $(info Crypto++: CRYPTOPP_ROOT is $(CRYPTOPP_ROOT))
+  endif
 endif
 
 #####################################################################
@@ -55,7 +57,7 @@ CRYPTOPP_SRC_FILES := \
     sm4.cpp sosemanuk.cpp speck.cpp speck128-simd.cpp speck64-simd.cpp \
     square.cpp squaretb.cpp sse-simd.cpp strciphr.cpp tea.cpp tftables.cpp \
     threefish.cpp tiger.cpp tigertab.cpp ttmac.cpp tweetnacl.cpp twofish.cpp \
-    vmac.cpp wake.cpp whrlpool.cpp xtr.cpp xtrcrypt.cpp zdeflate.cpp
+    vmac.cpp wake.cpp whrlpool.cpp xtr.cpp xtrcrypt.cpp zdeflate.cpp zlib.cpp
 
 #####################################################################
 # Test source files
@@ -84,6 +86,7 @@ endif
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_shared
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_ROOT),$(CRYPTOPP_SRC_FILES))
+LOCAL_CPP_FLAGS := -Wl,--exclude-libs,ALL -Wl,--as-needed
 LOCAL_CPP_FEATURES := rtti exceptions
 
 LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
@@ -114,6 +117,7 @@ include $(BUILD_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptest.exe
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_ROOT),$(CRYPTOPP_TEST_FILES))
+LOCAL_CPP_FLAGS := -Wl,--as-needed
 LOCAL_CPP_FEATURES := rtti exceptions
 
 LOCAL_STATIC_LIBRARIES := cryptopp_static

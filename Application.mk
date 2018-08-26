@@ -10,6 +10,8 @@
 
 APP_ABI := all
 APP_PLATFORM := android-18
+
+# APP_STL := c++_shared
 APP_STL := gnustl_shared
 
 CRYPTOPP_PATH := $(call my-dir)
