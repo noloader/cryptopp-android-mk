@@ -97,7 +97,7 @@ endif
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_shared
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_SRC_FILES))
-LOCAL_CPP_FLAGS := -Wall
+LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 LOCAL_LDFLAGS := -Wl,--exclude-libs,ALL -Wl,--as-needed
 
@@ -114,7 +114,7 @@ include $(BUILD_SHARED_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_static
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_SRC_FILES))
-LOCAL_CPP_FLAGS := -Wall
+LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
 LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
@@ -130,7 +130,7 @@ include $(BUILD_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptest.exe
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_TEST_FILES))
-LOCAL_CPP_FLAGS := -Wall
+LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 LOCAL_LDFLAGS := -Wl,--as-needed
 
