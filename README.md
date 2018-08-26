@@ -53,7 +53,7 @@ To run the script issue `ndk-build` with several NDK build variables set. `NDK_P
     cd cryptopp
     ndk-build V=1 NDK_PROJECT_PATH="$PWD" NDK_APPLICATION_MK="$PWD/Application.mk"
 
-According to [NDK Build](http://developer.android.com/ndk/guides/ndk-build) you should set `NDK_DEBUG=1` for debug builds and `NDK_DEBUG=0` for release builds. You can also set `NDK_LOG=1` and V=1` for verbose NDK builds which to help with diagnostics.
+According to [NDK Build](http://developer.android.com/ndk/guides/ndk-build) you should set `NDK_DEBUG=1` for debug builds and `NDK_DEBUG=0` for release builds. You can also set `NDK_LOG=1` and `V=1` for verbose NDK builds which should help with diagnostics.
 
 # Collaboration
 We would like all maintainers to be collaborators on this repo. If you are a maintainer then please contact us so we can send you an invite.
