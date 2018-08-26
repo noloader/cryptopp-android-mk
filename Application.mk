@@ -6,7 +6,7 @@
 ##
 ##            For a list of Android Platforms and API levels see
 ##            https://developer.android.com/ndk/guides/stable_apis
-##            Below Android 4.3 is android-18
+##            Android 4.3 is android-18, and Android 5 is android-21.
 
 APP_ABI := all
 APP_PLATFORM := android-18

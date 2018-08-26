@@ -13,6 +13,11 @@
 ##                  $ make sources | fold -w74 -s
 ##
 
+ifeq ($(NDK_LOG),1)
+    $(info Crypto++: TARGET_ARCH: $(TARGET_ARCH))
+    $(info Crypto++: TARGET_PLATFORM: $(TARGET_PLATFORM))
+endif
+
 LOCAL_PATH := $(call my-dir)
 
 #####################################################################
@@ -80,7 +85,6 @@ CRYPTOPP_TEST_FILES := \
 #####################################################################
 # ARM A-32 source file
 
-$(info TARGET_ARCH: $(TARGET_ARCH))
 ifeq ($(TARGET_ARCH),arm)
     CRYPTOPP_SRC_FILES += aes-armv4.S
     LOCAL_ARM_MODE := arm
@@ -93,8 +97,9 @@ endif
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_shared
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_SRC_FILES))
-LOCAL_CPP_FLAGS := -Wl,--exclude-libs,ALL -Wl,--as-needed
+LOCAL_CPP_FLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
+LOCAL_LDFLAGS := -Wl,--exclude-libs,ALL -Wl,--as-needed
 
 LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
@@ -109,6 +114,7 @@ include $(BUILD_SHARED_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_static
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_SRC_FILES))
+LOCAL_CPP_FLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
 LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
@@ -124,8 +130,9 @@ include $(BUILD_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptest.exe
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_TEST_FILES))
-LOCAL_CPP_FLAGS := -Wl,--as-needed
+LOCAL_CPP_FLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
+LOCAL_LDFLAGS := -Wl,--as-needed
 
 LOCAL_STATIC_LIBRARIES := cryptopp_static
 include $(BUILD_EXECUTABLE)
