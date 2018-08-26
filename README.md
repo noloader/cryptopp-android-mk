@@ -8,7 +8,7 @@ The purpose of Crypto++ Android build is three-fold:
 2. supplement the GNUmakefile which is reaching its limits with repsect to GNUmake-based configuration
 3. utilize compiler feature probes that produce better results on x86, ARM, and MIPS
 
-The initial `Android.mk` and `Application.mk` based on 
+The initial `Android.mk` and `Application.mk` based on Alex Afanasyev's pull request at https://github.com/weidai11/cryptopp/pull/3.
 
 The Android build files are a work in progress, so use it at your own risk. The head notes in `Android.mk` list some outstanding items. Please feel free to make pull requests to fix problems.
 
@@ -46,7 +46,7 @@ Before running the Autotools project please ensure you have the following instal
 `ANDROID_NDK_ROOT` and `ANDROID_SDK_ROOT` are NDK and SDK variables used by the tools. They should be set whenever you use Android's command line tools. The project does not use environmental variables used by Eclipse or Android Studio. Also see http://groups.google.com/group/android-ndk/browse_thread/thread/a998e139aca71d77 .
 
 # Integration
-The Android build files require an unusal filesystem layout. Your Crypto++ source files will be located in a folder like `<project root>/cryptopp-7.1`. `Android.mk` and `Application.mk` will be located in a folder like `<project root>/jni`. You must set `CRYPTOPP_ROOT` in `Android.mk` to a value like `../../cryptopp-7.1`. The trailing slash is important because is uses GNU Make's `addprefix` which is a simple concatenation.
+The Android build files require an unusal filesystem layout. Your Crypto++ source files will be located in a folder like `<project root>/cryptopp-7.1`. `Android.mk` and `Application.mk` will be located in a folder like `<project root>/jni`. You must set `CRYPTOPP_ROOT` in `Android.mk` to a value like `../../cryptopp-7.1/`. The trailing slash is important because is uses GNU Make's `addprefix` which is a simple concatenation.
 
 # Collaboration
 We would like all maintainers to be collaborators on this repo. If you are a maintainer then please contact us so we can send you an invite.
