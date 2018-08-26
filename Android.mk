@@ -18,10 +18,13 @@ LOCAL_PATH := $(call my-dir)
 #####################################################################
 # Adjust CRYPTOPP_PATH to suit your taste, like ../cryptopp-7.1/.
 # If CRYPTOPP_PATH is empty then it means the library files and the
-# Android files are side-by-side in the same directory.
-# If CRYPTOPP_PATH is not empty then must include the trailing slash.
+# Android files are side-by-side in the same directory. If
+# CRYPTOPP_PATH is not empty then must include the trailing slash.
+# The trailing slash is needed because CRYPTOPP_PATH is prepended
+# to each source file listed in CRYPTOPP_SRC_FILES.
 
-CRYPTOPP_PATH ?= ../cryptopp/
+# CRYPTOPP_PATH ?= ../cryptopp/
+CRYPTOPP_PATH ?=
 
 ifeq ($(NDK_LOG),1)
   ifeq ($CRYPTOPP_PATH),)
