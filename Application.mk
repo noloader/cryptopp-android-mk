@@ -11,3 +11,13 @@
 APP_ABI := all
 APP_PLATFORM := android-18
 APP_STL := gnustl_shared
+
+CRYPTOPP_PATH := $(call my-dir)
+NDK_PROJECT_PATH := $(CRYPTOPP_PATH)
+APP_BUILD_SCRIPT := $(CRYPTOPP_PATH)/Android.mk
+
+ifeq ($(NDK_LOG),1)
+    $(info Crypto++: NDK_PROJECT_PATH is $(NDK_PROJECT_PATH))
+    $(info Crypto++: APP_BUILD_SCRIPT is $(APP_BUILD_SCRIPT))
+endif
+

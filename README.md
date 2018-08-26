@@ -46,7 +46,11 @@ Before running the Autotools project please ensure you have the following instal
 `ANDROID_NDK_ROOT` and `ANDROID_SDK_ROOT` are NDK and SDK variables used by the tools. They should be set whenever you use Android's command line tools. The project does not use environmental variables used by Eclipse or Android Studio. Also see http://groups.google.com/group/android-ndk/browse_thread/thread/a998e139aca71d77 .
 
 # Integration
-The Android build files require an unusal filesystem layout. Your Crypto++ source files will be located in a folder like `<project root>/cryptopp-7.1`. `Android.mk` and `Application.mk` will be located in a folder like `<project root>/jni`. You must set `CRYPTOPP_ROOT` in `Android.mk` to a value like `../../cryptopp-7.1/`. The trailing slash is important because is uses GNU Make's `addprefix` which is a simple concatenation.
+The Android build files require an unusal filesystem layout. Your Crypto++ source files will be located in a folder like `<project root>/cryptopp-7.1`. `Android.mk` and `Application.mk` will be located in a folder like `<project root>/jni`. You must set `CRYPTOPP_ROOT` in `Android.mk` to a value like `../cryptopp-7.1/`. The trailing slash is important because is uses GNU Make's `addprefix` which is a simple concatenation.
+
+To run the script issue `ndk-build` with several NDK build variables set. `NDK_LOG` is optional but helps diagnose problems. `NDK_PROJECT_PATH` and `NDK_APPLICATION_MK` are required when not using Android default paths.
+
+NDK_LOG=1 ndk-build NDK_PROJECT_PATH="$PWD" NDK_APPLICATION_MK="$PWD/Application.mk"
 
 # Collaboration
 We would like all maintainers to be collaborators on this repo. If you are a maintainer then please contact us so we can send you an invite.

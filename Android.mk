@@ -15,14 +15,15 @@
 
 LOCAL_PATH := $(call my-dir)
 
-# Debugging
-# NDK_DEBUG_IMPORTS := 1
-
 # CRYPTOPP_ROOT must include the trailing slash. The path used
 # below assumes Crypto++ source files are located in the root
 # of the project, and Android.mk is buried under jni/. Change
 # CRYPTOPP_ROOT to suit your taste, like ../cryptopp-7.1/.
-CRYPTOPP_ROOT ?= ../../
+CRYPTOPP_ROOT ?= ../cryptopp/
+
+ifeq ($(NDK_LOG),1)
+    $(info Crypto++: CRYPTOPP_ROOT is $(CRYPTOPP_ROOT))
+endif
 
 CRYPTOPP_SRC_FILES := \
     cryptlib.cpp cpu.cpp integer.cpp 3way.cpp adler32.cpp algebra.cpp \
@@ -61,7 +62,7 @@ CRYPTOPP_TEST_FILES := \
 
 #####################################################################
 # ARM A-32 source file
-ifeg $($(TARGET_ARCH),ARM)
+ifeq ($(TARGET_ARCH),ARM)
 CRYPTOPP_SRC_FILES += aes-armv4.S
 LOCAL_ARM_MODE := arm
 LOCAL_FILTER_ASM :=
@@ -109,3 +110,4 @@ LOCAL_CPP_FEATURES := rtti exceptions
 
 LOCAL_STATIC_LIBRARIES := cryptopp_static
 include $(BUILD_EXECUTABLE)
+
