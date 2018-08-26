@@ -16,16 +16,18 @@
 LOCAL_PATH := $(call my-dir)
 
 #####################################################################
-# Adjust CRYPTOPP_ROOT to suit your taste, like ../cryptopp-7.1/.
-# If CRYPTOPP_ROOT is not empty then must include the trailing slash.
+# Adjust CRYPTOPP_PATH to suit your taste, like ../cryptopp-7.1/.
+# If CRYPTOPP_PATH is empty then it means the library files and the
+# Android files are side-by-side in the same directory.
+# If CRYPTOPP_PATH is not empty then must include the trailing slash.
 
-CRYPTOPP_ROOT ?= ../cryptopp/
+CRYPTOPP_PATH ?= ../cryptopp/
 
 ifeq ($(NDK_LOG),1)
-  ifeq ($CRYPTOPP_ROOT),)
-    $(info Crypto++: CRYPTOPP_ROOT is empty)
+  ifeq ($CRYPTOPP_PATH),)
+    $(info Crypto++: CRYPTOPP_PATH is empty)
   else
-    $(info Crypto++: CRYPTOPP_ROOT is $(CRYPTOPP_ROOT))
+    $(info Crypto++: CRYPTOPP_PATH is $(CRYPTOPP_PATH))
   endif
 endif
 
@@ -86,7 +88,7 @@ endif
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_shared
-LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_ROOT),$(CRYPTOPP_SRC_FILES))
+LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_SRC_FILES))
 LOCAL_CPP_FLAGS := -Wl,--exclude-libs,ALL -Wl,--as-needed
 LOCAL_CPP_FEATURES := rtti exceptions
 
@@ -102,7 +104,7 @@ include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_static
-LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_ROOT),$(CRYPTOPP_SRC_FILES))
+LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_SRC_FILES))
 LOCAL_CPP_FEATURES := rtti exceptions
 
 LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
@@ -117,7 +119,7 @@ include $(BUILD_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptest.exe
-LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_ROOT),$(CRYPTOPP_TEST_FILES))
+LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_TEST_FILES))
 LOCAL_CPP_FLAGS := -Wl,--as-needed
 LOCAL_CPP_FEATURES := rtti exceptions
 

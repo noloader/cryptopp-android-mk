@@ -14,9 +14,9 @@ APP_PLATFORM := android-18
 # APP_STL := c++_shared
 APP_STL := gnustl_shared
 
-CRYPTOPP_PATH := $(call my-dir)
-NDK_PROJECT_PATH := $(CRYPTOPP_PATH)
-APP_BUILD_SCRIPT := $(CRYPTOPP_PATH)/Android.mk
+CRYPTOPP_ROOT := $(call my-dir)
+NDK_PROJECT_PATH := $(CRYPTOPP_ROOT)
+APP_BUILD_SCRIPT := $(CRYPTOPP_ROOT)/Android.mk
 
 ifeq ($(NDK_LOG),1)
     $(info Crypto++: NDK_PROJECT_PATH is $(NDK_PROJECT_PATH))
