@@ -120,5 +120,3 @@ LOCAL_STATIC_LIBRARIES := cryptopp_static
 include $(BUILD_EXECUTABLE)
 
 $(call import-module,android/cpufeatures)
-
-

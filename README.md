@@ -1,6 +1,6 @@
 # Crypto++ Android
 
-This repository contains Android build files for Wei Dai's Crypto++ (https://github.com/weidai11/cryptopp). It supplies `Android.mk` and `Application.mk` for Crypto++ for those who want to use Android build tools. Android's build system is officialy unsupported, so use it at your own risk.
+This repository contains Android build files for Wei Dai's Crypto++ (http://github.com/weidai11/cryptopp). It supplies `Android.mk` and `Application.mk` for Crypto++ for those who want to use Android build tools. Android's build system is officialy unsupported, so use it at your own risk.
 
 The purpose of Crypto++ Android build is three-fold:
 
@@ -8,16 +8,16 @@ The purpose of Crypto++ Android build is three-fold:
 2. supplement the GNUmakefile which is reaching its limits with repsect to GNUmake-based configuration
 3. utilize compiler feature probes that produce better results on x86, ARM, and MIPS
 
-The initial `Android.mk` and `Application.mk` based on Alex Afanasyev's pull request at https://github.com/weidai11/cryptopp/pull/3.
+The initial `Android.mk` and `Application.mk` based on Alex Afanasyev's pull request at http://github.com/weidai11/cryptopp/pull/3.
 
 The Android build files are a work in progress, so use it at your own risk. The head notes in `Android.mk` list some outstanding items. Please feel free to make pull requests to fix problems.
 
 # Workflow
 The general workflow is clone Wei Dai's crypto++, add Android as a submodule, and then copy the files of interest into the Crypto++ directory:
 
-    git clone https://github.com/weidai11/cryptopp.git
+    git clone http://github.com/weidai11/cryptopp.git
     cd cryptopp
-    git submodule add https://github.com/noloader/cryptopp-android.git android
+    git submodule add http://github.com/noloader/cryptopp-android.git android
     git submodule update --remote
 
     cp "$PWD/android/Android.mk" "$PWD"
@@ -51,6 +51,8 @@ The Android build files require an unusal filesystem layout. Your Crypto++ sourc
 To run the script issue `ndk-build` with several NDK build variables set. `NDK_LOG` is optional but helps diagnose problems. `NDK_PROJECT_PATH` and `NDK_APPLICATION_MK` are required when not using Android default paths.
 
     NDK_LOG=1 ndk-build NDK_PROJECT_PATH="$PWD" NDK_APPLICATION_MK="$PWD/Application.mk"
+
+According to [NDK Build](http://developer.android.com/ndk/guides/ndk-build) you should set `NDK_DEBUG=1` for debug builds and `NDK_DEBUG=0` for release builds. You can also set `V=1` for verbose NDK builds which will show the command line.
 
 # Collaboration
 We would like all maintainers to be collaborators on this repo. If you are a maintainer then please contact us so we can send you an invite.
