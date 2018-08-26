@@ -1,5 +1,7 @@
-## Application.mk - Android build file for Crypto++. Written and
-##                  placed in public domain by Jeffrey Walton.
+## Application.mk - Android build file for Crypto++. Written and placed
+##            in public domain by Jeffrey Walton. Based on
+##            Application.mk by Alex Afanasyev (GitHub @cawka),
+##            https://github.com/weidai11/cryptopp/pull/3
 ##
 ##            The Android make uses GNU Make and is documented at
 ##            https://developer.android.com/ndk/guides/android_mk
