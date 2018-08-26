@@ -7,12 +7,17 @@
 ##            For a list of Android Platforms and API levels see
 ##            https://developer.android.com/ndk/guides/stable_apis
 ##            Android 4.3 is android-18, and Android 5 is android-21.
+##
+##            Android recommends c++_shared for NDK version 16.0 and
+##            above. Android will be removing other runtime libraries
+##            as early as NDK version 18. Also see
+##            https://developer.android.com/ndk/guides/cpp-support.
 
 APP_ABI := all
-APP_PLATFORM := android-18
+APP_PLATFORM := android-21
 
-# APP_STL := c++_shared
-APP_STL := gnustl_shared
+# APP_STL := gnustl_shared
+APP_STL := c++_shared
 
 CRYPTOPP_ROOT := $(call my-dir)
 NDK_PROJECT_PATH := $(CRYPTOPP_ROOT)
