@@ -57,7 +57,8 @@ CRYPTOPP_SRC_FILES := \
     sm4.cpp sosemanuk.cpp speck.cpp speck128-simd.cpp speck64-simd.cpp \
     square.cpp squaretb.cpp sse-simd.cpp strciphr.cpp tea.cpp tftables.cpp \
     threefish.cpp tiger.cpp tigertab.cpp ttmac.cpp tweetnacl.cpp twofish.cpp \
-    vmac.cpp wake.cpp whrlpool.cpp xtr.cpp xtrcrypt.cpp zdeflate.cpp zlib.cpp
+    vmac.cpp wake.cpp whrlpool.cpp xtr.cpp xtrcrypt.cpp zdeflate.cpp \
+    zinflate.cpp zlib.cpp
 
 #####################################################################
 # Test source files
