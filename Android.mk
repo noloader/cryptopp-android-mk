@@ -13,6 +13,11 @@
 ##                  $ make sources | fold -w74 -s
 ##
 
+## TODO - We use this line below in the .mk file:
+##            LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
+## The open question is, should we be exporting the path as:
+##            LOCAL_EXPORT_C_INCLUDES := $(CRYPTOPP_PATH)
+
 ifeq ($(NDK_LOG),1)
     $(info Crypto++: TARGET_ARCH: $(TARGET_ARCH))
     $(info Crypto++: TARGET_PLATFORM: $(TARGET_PLATFORM))
