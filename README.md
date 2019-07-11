@@ -10,31 +10,20 @@ The purpose of Crypto++ Android build is three-fold:
 
 The initial `Android.mk` and `Application.mk` based on Alex Afanasyev's pull request at http://github.com/weidai11/cryptopp/pull/3.
 
-There is a wiki page available that discusses the Android build system and the Crypto++ project files in more detail at [Android.mk](https://www.cryptopp.com/wiki/Android.mk_(Command_Line)).
-
 The Android build files are a work in progress, so use it at your own risk. The head notes in `Android.mk` list some outstanding items. Please feel free to make pull requests to fix problems.
 
+# Wiki Page
+
+There is a wiki page available that discusses the Android build system and the Crypto++ project files in more detail at [Android.mk](https://www.cryptopp.com/wiki/Android.mk_(Command_Line)).
+
 # Workflow
-The general workflow is clone Wei Dai's crypto++, add Android as a submodule, and then copy the files of interest into the Crypto++ directory:
+The general workflow is clone Wei Dai's crypto++, fetch the Android files, and then build using `ndk-build`:
 
     git clone http://github.com/weidai11/cryptopp.git
     cd cryptopp
-    git submodule add http://github.com/noloader/cryptopp-android.git android
-    git submodule update --remote
-
-    cp "$PWD/android/Android.mk" "$PWD"
-    cp "$PWD/android/Application.mk" "$PWD"
-
-To update the library and the submodule perform the following. The `make clean` is needed because reconfigure'ing does not invalidate the previously built objects or artifacts.
-
-    cd cryptopp
-    git pull
-    git submodule update --remote
-
-    cp "$PWD/android/Android.mk" "$PWD"
-    cp "$PWD/android/Application.mk" "$PWD"
-
-Despite our efforts we have not been able to add the submodule to Crypto++ for seamless integration. If anyone knows how to add the submodule directly to the Crypto++ directory, then please provide the instructions.
+	
+    wget -O Android.mk https://raw.githubusercontent.com/noloader/cryptopp-android/master/Android.mk
+    wget -O Application.mk https://raw.githubusercontent.com/noloader/cryptopp-android/master/Application.mk
 
 # ZIP Files
 
