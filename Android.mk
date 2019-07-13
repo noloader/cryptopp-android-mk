@@ -98,6 +98,7 @@ ifeq ($(TARGET_ARCH),arm)
     CRYPTOPP_SRC_FILES += aes_armv4.S
     CRYPTOPP_SRC_FILES += sha1_armv4.S
     CRYPTOPP_SRC_FILES += sha256_armv4.S
+    CRYPTOPP_SRC_FILES += sha512_armv4.S
     LOCAL_ARM_MODE := arm
     LOCAL_FILTER_ASM :=
 endif
