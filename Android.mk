@@ -49,7 +49,7 @@ endif
 
 CRYPTOPP_SRC_FILES := \
     cryptlib.cpp cpu.cpp integer.cpp \
-    3way.cpp adler32.cpp algebra.cpp algparam.cpp arc4.cpp aria.cpp \
+    3way.cpp adler32.cpp algebra.cpp algparam.cpp allocate.cpp arc4.cpp aria.cpp \
     aria_simd.cpp ariatab.cpp asn.cpp authenc.cpp base32.cpp base64.cpp \
     basecode.cpp bfinit.cpp blake2.cpp blake2b_simd.cpp blake2s_simd.cpp \
     blowfish.cpp blumshub.cpp camellia.cpp cast.cpp casts.cpp cbcmac.cpp \
@@ -76,8 +76,8 @@ CRYPTOPP_SRC_FILES := \
     speck.cpp speck128_simd.cpp speck64_simd.cpp square.cpp squaretb.cpp \
     sse_simd.cpp strciphr.cpp tea.cpp tftables.cpp threefish.cpp tiger.cpp \
     tigertab.cpp ttmac.cpp tweetnacl.cpp twofish.cpp vmac.cpp wake.cpp \
-    whrlpool.cpp xed25519.cpp xtr.cpp xtrcrypt.cpp zdeflate.cpp zinflate.cpp \
-    zlib.cpp
+    whrlpool.cpp xed25519.cpp xtr.cpp xtrcrypt.cpp xts.cpp zdeflate.cpp \
+    zinflate.cpp zlib.cpp
 
 #####################################################################
 # Test source files
