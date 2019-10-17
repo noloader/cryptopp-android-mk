@@ -61,9 +61,9 @@ CRYPTOPP_TEST_FILES := \
 
 CRYPTOPP_INIT_FILES := cryptlib.cpp cpu.cpp integer.cpp
 CRYPTOPP_ALL_FILES := $(sort $(filter-out adhoc.cpp,$(wildcard *.cpp)))
-CRYPTOPP_SRC_FILES := $(filter-out $(CRYPTOPP_TEST_FILES),$(CRYPTOPP_ALL_FILES))
-CRYPTOPP_SRC_FILES := $(filter-out $(CRYPTOPP_INIT_FILES),$(CRYPTOPP_SRC_FILES))
-CRYPTOPP_LIB_FILES := $(CRYPTOPP_INIT_FILES) $(CRYPTOPP_SRC_FILES)
+CRYPTOPP_LIB_FILES := $(filter-out $(CRYPTOPP_TEST_FILES),$(CRYPTOPP_ALL_FILES))
+CRYPTOPP_LIB_FILES := $(filter-out $(CRYPTOPP_INIT_FILES),$(CRYPTOPP_LIB_FILES))
+CRYPTOPP_LIB_FILES := $(CRYPTOPP_INIT_FILES) $(CRYPTOPP_LIB_FILES)
 
 #####################################################################
 # ARM A-32 source file
