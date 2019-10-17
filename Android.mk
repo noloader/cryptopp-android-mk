@@ -8,10 +8,6 @@
 ##              The CPU Features library is documented at
 ##              https://developer.android.com/ndk/guides/cpu-features
 ##
-##              You can create the list of files below with:
-##
-##                  $ make sources | fold -w74 -s
-##
 
 ## TODO - We use this line below in the .mk file:
 ##            LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
@@ -31,7 +27,7 @@ LOCAL_PATH := $(call my-dir)
 # Android files are side-by-side in the same directory. If
 # CRYPTOPP_PATH is not empty then must include the trailing slash.
 # The trailing slash is needed because CRYPTOPP_PATH is prepended
-# to each source file listed in CRYPTOPP_SRC_FILES.
+# to each source file listed in CRYPTOPP_LIB_FILES.
 
 # CRYPTOPP_PATH ?= ../cryptopp/
 CRYPTOPP_PATH ?=
@@ -43,40 +39,6 @@ ifeq ($(NDK_LOG),1)
     $(info Crypto++: CRYPTOPP_PATH is $(CRYPTOPP_PATH))
   endif
 endif
-
-#####################################################################
-# Library source files
-
-CRYPTOPP_SRC_FILES := \
-    cryptlib.cpp cpu.cpp integer.cpp 3way.cpp adler32.cpp algebra.cpp \
-    algparam.cpp allocate.cpp arc4.cpp aria.cpp aria_simd.cpp ariatab.cpp \
-    asn.cpp authenc.cpp base32.cpp base64.cpp basecode.cpp bfinit.cpp \
-    blake2.cpp blake2b_simd.cpp blake2s_simd.cpp blowfish.cpp blumshub.cpp \
-    camellia.cpp cast.cpp casts.cpp cbcmac.cpp ccm.cpp chacha.cpp \
-    chacha_avx.cpp chacha_simd.cpp chachapoly.cpp cham.cpp cham_simd.cpp \
-    channels.cpp cmac.cpp crc.cpp crc_simd.cpp darn.cpp default.cpp des.cpp \
-    dessp.cpp dh.cpp dh2.cpp dll.cpp donna_32.cpp donna_64.cpp donna_sse.cpp \
-    dsa.cpp eax.cpp ec2n.cpp eccrypto.cpp ecp.cpp elgamal.cpp emsa2.cpp \
-    eprecomp.cpp esign.cpp files.cpp filters.cpp fips140.cpp fipstest.cpp \
-    gcm.cpp gcm_simd.cpp gf256.cpp gf2_32.cpp gf2n.cpp gf2n_simd.cpp \
-    gfpcrypt.cpp gost.cpp gzip.cpp hc128.cpp hc256.cpp hex.cpp hight.cpp \
-    hmac.cpp hrtimer.cpp ida.cpp idea.cpp iterhash.cpp kalyna.cpp \
-    kalynatab.cpp keccak.cpp keccak_core.cpp keccak_simd.cpp lea.cpp \
-    lea_simd.cpp luc.cpp mars.cpp marss.cpp md2.cpp md4.cpp md5.cpp misc.cpp \
-    modes.cpp mqueue.cpp mqv.cpp nbtheory.cpp neon_simd.cpp oaep.cpp \
-    osrng.cpp padlkrng.cpp panama.cpp pkcspad.cpp poly1305.cpp polynomi.cpp \
-    ppc_power7.cpp ppc_power8.cpp ppc_power9.cpp ppc_simd.cpp pssr.cpp \
-    pubkey.cpp queue.cpp rabbit.cpp rabin.cpp randpool.cpp rc2.cpp rc5.cpp \
-    rc6.cpp rdrand.cpp rdtables.cpp rijndael.cpp rijndael_simd.cpp ripemd.cpp \
-    rng.cpp rsa.cpp rw.cpp safer.cpp salsa.cpp scrypt.cpp seal.cpp seed.cpp \
-    serpent.cpp sha.cpp sha3.cpp sha_simd.cpp shacal2.cpp shacal2_simd.cpp \
-    shake.cpp shark.cpp sharkbox.cpp simeck.cpp simeck_simd.cpp simon.cpp \
-    simon128_simd.cpp simon64_simd.cpp skipjack.cpp sm3.cpp sm4.cpp \
-    sm4_simd.cpp sosemanuk.cpp speck.cpp speck128_simd.cpp speck64_simd.cpp \
-    square.cpp squaretb.cpp sse_simd.cpp strciphr.cpp tea.cpp tftables.cpp \
-    threefish.cpp tiger.cpp tigertab.cpp ttmac.cpp tweetnacl.cpp twofish.cpp \
-    vmac.cpp wake.cpp whrlpool.cpp xed25519.cpp xtr.cpp xtrcrypt.cpp xts.cpp \
-    zdeflate.cpp zinflate.cpp zlib.cpp
 
 #####################################################################
 # Test source files
@@ -91,15 +53,61 @@ CRYPTOPP_TEST_FILES := \
     regtest3.cpp regtest4.cpp
 
 #####################################################################
+# Library source files
+
+# The extra gyrations put cryptlib.cpp cpu.cpp integer.cpp at the head of
+# the list so their static initializers run first. Sort is used for
+# deterministic builds.
+
+CRYPTOPP_INIT_FILES := cryptlib.cpp cpu.cpp integer.cpp
+CRYPTOPP_ALL_FILES := $(sort $(filter-out adhoc.cpp,$(wildcard *.cpp)))
+CRYPTOPP_SRC_FILES := $(filter-out $(CRYPTOPP_TEST_FILES),$(CRYPTOPP_ALL_FILES))
+CRYPTOPP_SRC_FILES := $(filter-out $(CRYPTOPP_INIT_FILES),$(CRYPTOPP_SRC_FILES))
+CRYPTOPP_LIB_FILES := $(CRYPTOPP_INIT_FILES) $(CRYPTOPP_SRC_FILES)
+
+#####################################################################
 # ARM A-32 source file
 
 ifeq ($(TARGET_ARCH),arm)
-    CRYPTOPP_SRC_FILES += aes_armv4.S
-    CRYPTOPP_SRC_FILES += sha1_armv4.S
-    CRYPTOPP_SRC_FILES += sha256_armv4.S
-    CRYPTOPP_SRC_FILES += sha512_armv4.S
+    CRYPTOPP_ARM_FILES := aes_armv4.S sha1_armv4.S sha256_armv4.S sha512_armv4.S
+    CRYPTOPP_LIB_FILES := $(CRYPTOPP_LIB_FILES) $(CRYPTOPP_ARM_FILES)
     LOCAL_ARM_MODE := arm
     LOCAL_FILTER_ASM :=
+endif
+
+# Hack because our NEON files do not have the *.neon extension
+ifeq ($(TARGET_ARCH),arm)
+    $(shell ./make_neon.sh)  # copies *_simd.cpp to *_simd.cpp.neon
+    CRYPTOPP_NEON_FILES := $(sort $(wildcard *.cpp.neon))
+    CRYPTOPP_LIB_FILES := $(filter-out %_simd.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(CRYPTOPP_LIB_FILES) $(CRYPTOPP_NEON_FILES)
+endif
+
+#####################################################################
+# Remove other unneeded source files. Even Intel does not need AVX
+
+ifeq ($(TARGET_ARCH),arm)
+    CRYPTOPP_LIB_FILES := $(filter-out %_avx.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out ppc_simd.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out sse_simd.cpp,$(CRYPTOPP_LIB_FILES))
+endif
+
+ifeq ($(TARGET_ARCH),arm64)
+    CRYPTOPP_LIB_FILES := $(filter-out %_avx.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out ppc_simd.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out sse_simd.cpp,$(CRYPTOPP_LIB_FILES))
+endif
+
+ifeq ($(TARGET_ARCH),x86)
+    CRYPTOPP_LIB_FILES := $(filter-out %_avx.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out neon_simd.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out ppc_simd.cpp,$(CRYPTOPP_LIB_FILES))
+endif
+
+ifeq ($(TARGET_ARCH),x86_64)
+    CRYPTOPP_LIB_FILES := $(filter-out %_avx.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out neon_simd.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out ppc_simd.cpp,$(CRYPTOPP_LIB_FILES))
 endif
 
 #####################################################################
@@ -107,7 +115,7 @@ endif
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_shared
-LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_SRC_FILES))
+LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_LIB_FILES))
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 LOCAL_LDFLAGS := -Wl,--exclude-libs,ALL -Wl,--as-needed
@@ -124,7 +132,7 @@ include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_static
-LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_SRC_FILES))
+LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_LIB_FILES))
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
@@ -152,3 +160,4 @@ include $(BUILD_EXECUTABLE)
 # Android cpuFeatures library
 
 $(call import-module,android/cpufeatures)
+

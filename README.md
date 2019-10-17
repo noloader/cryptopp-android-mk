@@ -24,6 +24,7 @@ The general workflow is clone Wei Dai's crypto++, fetch the Android files, and t
 	
     wget -O Android.mk https://raw.githubusercontent.com/noloader/cryptopp-android/master/Android.mk
     wget -O Application.mk https://raw.githubusercontent.com/noloader/cryptopp-android/master/Application.mk
+    wget -O make_neon.sh https://raw.githubusercontent.com/noloader/cryptopp-android/master/make_neon.sh
 
 # ZIP Files
 
@@ -61,7 +62,3 @@ Keep in mind other folks may be using the files, so try not to break things for 
 
 Everything in this repo is release under Public Domain code. If the license or terms is unpalatable for you, then don't feel obligated to commit.
 
-# Future
-The Android project files are separate at the moment for several reason, like avoiding Git log pollution with Android branch experiments. We also need to keep a logical separation because GNUmake is the official build system, and not the Android project files.
-
-Eventually we would like to do two things. First, we would like to move this project from Jeff Walton's GitHub to Wei Dai's GitHub to provide stronger assurances on provenance. Second, we would like to provide an `android.zip` and place it in the Crypto++ `TestScripts/` directory to make it easier for folks to use Android.
