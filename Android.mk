@@ -84,7 +84,7 @@ CRYPTOPP_SRC_FILES := \
 # Remove adhoc.cpp from this list
 
 CRYPTOPP_TEST_FILES := \
-    adhoc.cpp test.cpp bench1.cpp bench2.cpp bench3.cpp datatest.cpp \
+    test.cpp bench1.cpp bench2.cpp bench3.cpp datatest.cpp \
     dlltest.cpp fipsalgt.cpp validat0.cpp validat1.cpp validat2.cpp \
     validat3.cpp validat4.cpp validat5.cpp validat6.cpp validat7.cpp \
     validat8.cpp validat9.cpp validat10.cpp regtest1.cpp regtest2.cpp \
