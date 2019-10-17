@@ -88,26 +88,28 @@ endif
 
 ifeq ($(TARGET_ARCH),arm)
     CRYPTOPP_LIB_FILES := $(filter-out %_avx.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(filter-out ppc_simd.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(filter-out sse_simd.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out ppc_%.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out sse_%.cpp,$(CRYPTOPP_LIB_FILES))
 endif
 
 ifeq ($(TARGET_ARCH),arm64)
     CRYPTOPP_LIB_FILES := $(filter-out %_avx.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(filter-out ppc_simd.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(filter-out sse_simd.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out ppc_%.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out sse_%.cpp,$(CRYPTOPP_LIB_FILES))
 endif
 
 ifeq ($(TARGET_ARCH),x86)
     CRYPTOPP_LIB_FILES := $(filter-out %_avx.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(filter-out neon_simd.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(filter-out ppc_simd.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out arm_%.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out neon_%.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out ppc_%.cpp,$(CRYPTOPP_LIB_FILES))
 endif
 
 ifeq ($(TARGET_ARCH),x86_64)
     CRYPTOPP_LIB_FILES := $(filter-out %_avx.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(filter-out neon_simd.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(filter-out ppc_simd.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out arm_%.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out neon_%.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out ppc_%.cpp,$(CRYPTOPP_LIB_FILES))
 endif
 
 #####################################################################
