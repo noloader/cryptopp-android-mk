@@ -60,7 +60,7 @@ CRYPTOPP_TEST_FILES := \
 # deterministic builds.
 
 CRYPTOPP_INIT_FILES := cryptlib.cpp cpu.cpp integer.cpp
-CRYPTOPP_ALL_FILES := $(sort $(filter-out adhoc.cpp,$(wildcard *.cpp)))
+CRYPTOPP_ALL_FILES := $(sort $(filter-out ppc_% adhoc.cpp,$(wildcard *.cpp)))
 CRYPTOPP_LIB_FILES := $(filter-out $(CRYPTOPP_TEST_FILES),$(CRYPTOPP_ALL_FILES))
 CRYPTOPP_LIB_FILES := $(filter-out $(CRYPTOPP_INIT_FILES),$(CRYPTOPP_LIB_FILES))
 CRYPTOPP_LIB_FILES := $(CRYPTOPP_INIT_FILES) $(CRYPTOPP_LIB_FILES)
@@ -88,29 +88,26 @@ endif
 
 ifeq ($(TARGET_ARCH),arm)
     CRYPTOPP_LIB_FILES := $(filter-out %_avx.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(filter-out ppc_%.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out sse_%.cpp,$(CRYPTOPP_LIB_FILES))
 endif
 
 ifeq ($(TARGET_ARCH),arm64)
     CRYPTOPP_LIB_FILES := $(filter-out %_avx.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(filter-out ppc_%.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out sse_%.cpp,$(CRYPTOPP_LIB_FILES))
 endif
 
 ifeq ($(TARGET_ARCH),x86)
     CRYPTOPP_LIB_FILES := $(filter-out %_avx.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(filter-out arm_%.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out neon_%.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(filter-out ppc_%.cpp,$(CRYPTOPP_LIB_FILES))
 endif
 
 ifeq ($(TARGET_ARCH),x86_64)
     CRYPTOPP_LIB_FILES := $(filter-out %_avx.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(filter-out arm_%.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out neon_%.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(filter-out ppc_%.cpp,$(CRYPTOPP_LIB_FILES))
 endif
+
+# Print the file lsit, if desired
+# $(info CRYPTOPP_LIB_FILES ($(TARGET_ARCH)): $(CRYPTOPP_LIB_FILES))
 
 #####################################################################
 # Shared object
