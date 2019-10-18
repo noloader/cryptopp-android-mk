@@ -30,10 +30,12 @@ The general workflow is clone Wei Dai's crypto++, fetch the Android files, and t
 
     git clone http://github.com/weidai11/cryptopp.git
     cd cryptopp
-	
+    
     wget -O Android.mk https://raw.githubusercontent.com/noloader/cryptopp-android/master/Android.mk
     wget -O Application.mk https://raw.githubusercontent.com/noloader/cryptopp-android/master/Application.mk
     wget -O make_neon.sh https://raw.githubusercontent.com/noloader/cryptopp-android/master/make_neon.sh
+
+    ndk-build NDK_PROJECT_PATH=... NDK_APPLICATION_MK=...
 
 ## ZIP Files
 
