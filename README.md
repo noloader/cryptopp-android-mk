@@ -39,13 +39,13 @@ The general workflow is clone Wei Dai's crypto++, fetch the Android files, and t
 
 ## ZIP Files
 
-If you are working from a Crypto++ release zip file, then you should download the same cryptopp-autotools release zip file. Both Crypto++ and this project use the same release tags, such as CRYPTOPP_8_0_0.
+If you are working from a Crypto++ release zip file, then you should download the same cryptopp-android release zip file. Both Crypto++ and this project use the same release tags, such as CRYPTOPP_8_0_0.
 
 If you mix and match Master with a release zip file then things may not work as expected. You may find the build project files reference a source file that is not present in the Crypto++ release.
 
 ## Prerequisites
 
-Before running the Autotools project please ensure you have the following installed:
+Before running the Android project please ensure you have the following installed:
 
 1. Android NDK
 2. Android SDK
