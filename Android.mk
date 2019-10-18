@@ -56,8 +56,8 @@ CRYPTOPP_TEST_FILES := \
 #####################################################################
 # Library source files
 
-# The extra gyrations put cryptlib.cpp cpu.cpp integer.cpp at the head of
-# the list so their static initializers run first. Sort is used for
+# The extra gyrations put cryptlib.cpp cpu.cpp integer.cpp at the head
+# of the list so their static initializers run first. Sort is used for
 # deterministic builds.
 
 CRYPTOPP_INIT_FILES := cryptlib.cpp cpu.cpp integer.cpp
