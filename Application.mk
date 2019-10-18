@@ -1,22 +1,25 @@
-## Application.mk - Android build file for Crypto++. Written and placed
-##            in public domain by Jeffrey Walton. Based on
-##            Application.mk by Alex Afanasyev (GitHub @cawka),
-##            https://github.com/weidai11/cryptopp/pull/3
+## Application.mk - Android build file for Crypto++.
+
+## Written and placed in public domain by Jeffrey Walton. This
+## Android.mk is based on Alex Afanasyev (GitHub @cawka) PR #3,
+## https://github.com/weidai11/cryptopp/pull/3.
 ##
-##            The Android make uses GNU Make and is documented at
-##            https://developer.android.com/ndk/guides/android_mk
+## The Android build system is a wrapper around GNU Make and is
+## documented https://developer.android.com/ndk/guides/android_mk.
+## The CPU Features library provides caps and is documented at
+## https://developer.android.com/ndk/guides/cpu-features.
 ##
-##            For a list of Android Platforms and API levels see
-##            https://developer.android.com/ndk/guides/stable_apis
-##            Android 4.3 is android-18, and Android 5 is android-21.
+## For a list of Android Platforms and API levels see
+## https://developer.android.com/ndk/guides/stable_apis.
+## Android 4.3 is android-18, and Android 5 is android-21.
 ##
-##            Android recommends c++_shared for NDK version 16.0 and
-##            above. Android will be removing other runtime libraries
-##            as early as NDK version 18. Also see
-##            https://developer.android.com/ndk/guides/cpp-support.
+## Android recommends c++_shared for NDK version 16.0 and
+## above. Android will be removing other runtime libraries
+## as early as NDK version 18. Also see
+## https://developer.android.com/ndk/guides/cpp-support.
 
 APP_ABI := all
-APP_PLATFORM := android-21
+APP_PLATFORM := android-23
 
 # APP_STL := gnustl_shared
 APP_STL := c++_shared
