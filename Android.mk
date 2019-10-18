@@ -9,6 +9,15 @@
 ## The CPU Features library provides caps and is documented at
 ## https://developer.android.com/ndk/guides/cpu-features.
 ##
+## Android.mk would be mostly boring except for NEON. The
+## library names its SIMD files like neon_simd.cpp, but Android
+## build system needs neon_simd.cpp.neon to add the compiler
+## options. The script make_neon.sh copies the *_simd.cpp files
+## to *_simd.cpp.neon files for the build system. Then, the
+## ARMv7a recipe filters out the unneeded *_simd.cpp files from
+## the CRYPTOPP_LIB_FILES file list, and adds the *_simd.cpp.neon
+## files to the CRYPTOPP_LIB_FILES file list. 
+##
 ## The library's makefile and the 'make distclean' recipe will
 ## clean the artifacts created by Android.mk, like obj/,
 ## neon_simd.cpp.neon and rijndael_simd.cpp.neon.
