@@ -65,6 +65,8 @@ CRYPTOPP_TEST_FILES := \
     validat8.cpp validat9.cpp validat10.cpp regtest1.cpp regtest2.cpp \
     regtest3.cpp regtest4.cpp
 
+CRYPTOPP_TEST_FILES := $(filter-out adhoc.cpp,$(CRYPTOPP_TEST_FILES))
+
 #####################################################################
 # Library source files
 
@@ -79,7 +81,7 @@ CRYPTOPP_LIB_FILES := $(filter-out $(CRYPTOPP_INIT_FILES),$(CRYPTOPP_LIB_FILES))
 CRYPTOPP_LIB_FILES := $(CRYPTOPP_INIT_FILES) $(CRYPTOPP_LIB_FILES)
 
 #####################################################################
-# ARM A-32 source file
+# ARM A-32 source files
 
 ifeq ($(TARGET_ARCH),arm)
     CRYPTOPP_ARM_FILES := aes_armv4.S sha1_armv4.S sha256_armv4.S sha512_armv4.S
