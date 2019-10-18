@@ -2,11 +2,10 @@
 
 This repository contains Android build files for Wei Dai's [Crypto++](http://github.com/weidai11/cryptopp). It supplies `Android.mk` and `Application.mk` for Crypto++ for those who want to use Android build tools.
 
-The purpose of Crypto++ Android build is three-fold:
+The purpose of Crypto++ Android build is two-fold:
 
 1. better support Android distributions
 2. supplement the GNUmakefile which is reaching its limits with repsect to GNUmake-based configuration
-3. utilize compiler feature probes that produce better results on x86, ARM, and MIPS
 
 The initial `Android.mk` and `Application.mk` based on Alex Afanasyev's pull request at http://github.com/weidai11/cryptopp/pull/3.
 
@@ -71,4 +70,3 @@ If you are a collaborator then make changes as you see fit. You don't need to as
 Keep in mind other folks may be using the files, so try not to break things for the other guy. We have to be mindful of different versions of the NDK and API versions.
 
 Everything in this repo is release under Public Domain code. If the license or terms is unpalatable for you, then don't feel obligated to commit.
-
