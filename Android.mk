@@ -1,19 +1,19 @@
 ## Android.mk - Android build file for Crypto++.
-
+##
 ## Written and placed in public domain by Jeffrey Walton. This
 ## Android.mk is based on Alex Afanasyev (GitHub @cawka) PR #3,
 ## https://github.com/weidai11/cryptopp/pull/3.
 ##
 ## The Android build system is a wrapper around GNU Make and is
-## documented  https://developer.android.com/ndk/guides/android_mk.
+## documented https://developer.android.com/ndk/guides/android_mk.
 ## The CPU Features library provides caps and is documented at
 ## https://developer.android.com/ndk/guides/cpu-features.
 ##
 
 ## TODO - We use this line below in the .mk file:
-##            LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
+##     LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
 ## The open question is, should we be exporting the path as:
-##            LOCAL_EXPORT_C_INCLUDES := $(CRYPTOPP_PATH)
+##     LOCAL_EXPORT_C_INCLUDES := $(CRYPTOPP_PATH)
 
 ifeq ($(NDK_LOG),1)
     $(info Crypto++: TARGET_ARCH: $(TARGET_ARCH))
@@ -107,8 +107,9 @@ ifeq ($(TARGET_ARCH),x86_64)
     CRYPTOPP_LIB_FILES := $(filter-out neon_%.cpp,$(CRYPTOPP_LIB_FILES))
 endif
 
-# Print the file lsit, if desired
-# $(info CRYPTOPP_LIB_FILES ($(TARGET_ARCH)): $(CRYPTOPP_LIB_FILES))
+ifeq ($(NDK_LOG),1)
+    $(info CRYPTOPP_LIB_FILES ($(TARGET_ARCH)): $(CRYPTOPP_LIB_FILES))
+endif
 
 #####################################################################
 # Shared object
