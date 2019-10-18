@@ -9,6 +9,9 @@
 ## The CPU Features library provides caps and is documented at
 ## https://developer.android.com/ndk/guides/cpu-features.
 ##
+## The library's makefile and the 'make distclean' recipe will
+## clean the artifacts created by Android.mk, like obj/,
+## neon_simd.cpp.neon and rijndael_simd.cpp.neon.
 
 ## TODO - We use this line below in the .mk file:
 ##     LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
