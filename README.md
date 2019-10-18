@@ -9,7 +9,7 @@ The purpose of Crypto++ Android build is two-fold:
 
 The initial `Android.mk` and `Application.mk` based on Alex Afanasyev's pull request at http://github.com/weidai11/cryptopp/pull/3.
 
-There is a wiki page available that discusses the Android build system and the Crypto++ project files in more detail at [Android.mk](https://www.cryptopp.com/wiki/Android.mk_(Command_Line)).
+There is a wiki page available that discusses the Android build system and the Crypto++ project files in more detail at [Android.mk (Command Line)](https://www.cryptopp.com/wiki/Android.mk_(Command_Line)).
 
 ## Testing
 
