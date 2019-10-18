@@ -1,12 +1,13 @@
-## Android.mk - Android build file for Crypto++. Written and placed in
-##              public domain by Jeffrey Walton. Based on Android.mk
-##              by Alex Afanasyev (GitHub @cawka),
-##              https://github.com/weidai11/cryptopp/pull/3
+## Android.mk - Android build file for Crypto++.
+
+## Written and placed in public domain by Jeffrey Walton. This
+## Android.mk is based on Alex Afanasyev (GitHub @cawka) PR #3,
+## https://github.com/weidai11/cryptopp/pull/3.
 ##
-##              The Android make uses GNU Make and is documented at
-##              https://developer.android.com/ndk/guides/android_mk
-##              The CPU Features library is documented at
-##              https://developer.android.com/ndk/guides/cpu-features
+## The Android build system is a wrapper around GNU Make and is
+## documented  https://developer.android.com/ndk/guides/android_mk.
+## The CPU Features library provides caps and is documented at
+## https://developer.android.com/ndk/guides/cpu-features.
 ##
 
 ## TODO - We use this line below in the .mk file:
