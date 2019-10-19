@@ -13,7 +13,7 @@ There is a wiki page available that discusses the Android build system and the C
 
 ## Testing
 
-The Android build files are a work in progress, so use it at your own risk. With that said <tt>cryptest-android.sh</tt> is used to test the build system.
+The Android build files are a work in progress, so use them at your own risk. With that said <tt>cryptest-android.sh</tt> is used to test the build system.
 
 In September 2016 the library added <tt>cryptest-android.sh</tt> to help test the Android.mk gear. The script is located in Crypto++'s <tt>TestScripts</tt> directory. The script downloads the Android.mk project files and builds the library.
 
@@ -55,7 +55,7 @@ Before running the Android project please ensure you have the following installe
 `ANDROID_NDK_ROOT` and `ANDROID_SDK_ROOT` are NDK and SDK environmental variables used by the Android tools. They should be set whenever you use Android's command line tools. The project does not use environmental variables from Eclipse or Android Studio like `ANDROID_HOME` or `ANDROID_SDK_HOME`. Also see [Recommended NDK Directory?](http://groups.google.com/group/android-ndk/browse_thread/thread/a998e139aca71d77) on the Android NDK mailing list.
 
 ## Integration
-The Android build files require an unusal filesystem layout. Your Crypto++ source files will be located in a folder like `<project root>/cryptopp-7.1`. `Android.mk` and `Application.mk` will be located in a folder like `<project root>/jni`. You must set `CRYPTOPP_ROOT` in `Android.mk` to a value like `../cryptopp-7.1/`. The trailing slash is important because is uses GNU Make's `addprefix` which is a simple concatenation.
+The Android build files require an unusal filesystem layout. Your Crypto++ source files will be located in a folder like `<project root>/cryptopp-7.1`. `Android.mk` and `Application.mk` will be located in a folder like `<project root>/jni`. You must set `CRYPTOPP_ROOT` in `Android.mk` to a value like `../cryptopp-7.1/`. The trailing slash is important because the build system uses GNU Make's `addprefix` which is a simple concatenation.
 
 To run the script issue `ndk-build` with several NDK build variables set. `NDK_PROJECT_PATH` and `NDK_APPLICATION_MK` are required when not using Android default paths like `jni/`.
 
