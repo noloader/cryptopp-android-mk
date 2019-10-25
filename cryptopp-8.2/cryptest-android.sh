@@ -75,7 +75,7 @@ echo "Patching GNUmakefile-cross"
 sed -i 's/SRCS += aes_armv4.S sha1_armv4.S sha256_armv4.S sha512_armv4.S/SRCS += aes_armv4.S/g' GNUmakefile-cross
 
 echo ""
-echo "========== ========== ========== =========="
+echo "===================================================================="
 echo ""
 
 # Cleanup old artifacts
