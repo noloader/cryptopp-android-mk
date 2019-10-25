@@ -29,8 +29,7 @@ if [[ -n $(command -v gpg) ]]; then
     if gpg --quiet --verify cryptopp820.zip.sig cryptopp820.zip 2>/dev/null; then
         echo "Verified signature on cryptopp820.zip."
     else
-        echo "Failed to verify signature on cryptopp820.zip."
-        echo "Is the public key available?"
+        echo "Failed to verify signature on cryptopp820.zip. Is the public key available?"
         echo "Also see https://www.cryptopp.com/wiki/Release_Signing."
     fi
 else
