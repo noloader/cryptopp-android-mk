@@ -116,7 +116,7 @@ do
     # run in subshell to discard envar changes
     (
         source ./setenv-android.sh "$platform" # > /dev/null 2>&1
-        if ndk-build NDK_PROJECT_PATH="$PWD" NDK_APPLICATION_MK="$PWD/Application.mk" V=1
+        if ndk-build APP_ABI="$platform" NDK_PROJECT_PATH="$PWD" NDK_APPLICATION_MK="$PWD/Application.mk" V=1
         then
             echo "$platform:$runtime ==> SUCCESS" >> "$TMPDIR/build.log"
         else
