@@ -75,7 +75,7 @@ chmod +x GNUmakefile-cross
 if [[ -n $(command -v xattr) ]]; then
     xattr -d "com.apple.quarantine" setenv-android.sh
     xattr -d "com.apple.quarantine" make_neon.sh
-    xattr -d "com.apple.quarantine" make_neon.sh
+    xattr -d "com.apple.quarantine" GNUmakefile-cross
 fi
 
 # Fix config.h
