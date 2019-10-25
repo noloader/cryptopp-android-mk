@@ -117,7 +117,8 @@ cat "$TMPDIR/build.log"
 
 # let the script fail if any of the builds failed
 if [ -f "$TMPDIR/build.failed" ]; then
-	[[ "$0" = "${BASH_SOURCE[0]}" ]] && exit 1 || return 1
+	exit 1
 fi
 
-[[ "$0" = "${BASH_SOURCE[0]}" ]] && exit 0 || return 0
+exit 0
+
