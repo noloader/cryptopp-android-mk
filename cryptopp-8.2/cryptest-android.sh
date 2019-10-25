@@ -41,10 +41,6 @@ fi
 echo "Unpacking cryptopp820.zip"
 unzip -aoq cryptopp820.zip -d .
 
-if [[ ! -f cryptopp820.zip ]] || [[ ! -f cryptopp820.zip.sig ]]; then
-    echo "WTF? Something just deleted cryptopp820.zip and cryptopp820.zip.sig"
-fi
-
 # Crypto++ Master
 echo "Downloading setenv-android.sh"
 if ! curl -o setenv-android.sh --silent --insecure "https://raw.githubusercontent.com/weidai11/cryptopp/master/TestScripts/setenv-android.sh"; then
@@ -113,7 +109,7 @@ PLATFORMS=(armeabi-v7a arm64-v8a x86 x86_64)
 RUNTIMES=(libc++)
 
 # Clean all artifacts
-make distclean &>/dev/null
+make clean &>/dev/null
 rm -rf objs/
 
 for platform in "${PLATFORMS[@]}"
