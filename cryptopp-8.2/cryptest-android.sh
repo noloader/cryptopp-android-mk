@@ -14,8 +14,14 @@
 
 # Temp directory
 if [[ -z "$TMPDIR" ]]; then
-	TMPDIR="$HOME/tmp"
-	mkdir "$TMPDIR"
+    TMPDIR="$HOME/tmp"
+    mkdir "$TMPDIR"
+fi
+
+if [[ ! -f cryptopp820.zip ]] || [[ ! -f cryptopp820.zip.sig ]]; then
+    echo "Crypto++ zip file and signature file are missing."
+    echo "Did something delete them, like on some versions of Debian?"
+    exit 1
 fi
 
 # Unpack the Crypto++ 8.2 release zip
@@ -25,15 +31,15 @@ unzip -aoq cryptopp820.zip -d .
 # Crypto++ Master
 echo "Downloading setenv-android.sh"
 if ! curl -o setenv-android.sh --silent --insecure "https://raw.githubusercontent.com/weidai11/cryptopp/master/TestScripts/setenv-android.sh"; then
-	echo "setenv-android.sh download failed"
-	exit 1
+    echo "setenv-android.sh download failed"
+    exit 1
 fi
 
 # Crypto++ Master
 echo "Downloading GNUmakefile-cross"
 if ! curl -o GNUmakefile-cross --silent --insecure "https://raw.githubusercontent.com/weidai11/cryptopp/master/GNUmakefile-cross"; then
-	echo "GNUmakefile-cross download failed"
-	exit 1
+    echo "GNUmakefile-cross download failed"
+    exit 1
 fi
 
 # Android.mk
@@ -56,6 +62,7 @@ chmod +x GNUmakefile-cross
 # Fix quarantine on OS X
 if [[ -n $(command -v xattr) ]]; then
     xattr -d "com.apple.quarantine" setenv-android.sh
+    xattr -d "com.apple.quarantine" make_neon.sh
     xattr -d "com.apple.quarantine" make_neon.sh
 fi
 
@@ -94,20 +101,20 @@ rm -rf objs/
 
 for platform in "${PLATFORMS[@]}"
 do
-	# run in subshell to discard envar changes
-	(
-		source ./setenv-android.sh "$platform" # > /dev/null 2>&1
-		if ndk-build NDK_PROJECT_PATH="$PWD" NDK_APPLICATION_MK="$PWD/Application.mk" V=1
-		then
-			echo "$platform:$runtime ==> SUCCESS" >> "$TMPDIR/build.log"
-		else
-			echo "$platform:$runtime ==> FAILURE" >> "$TMPDIR/build.log"
-			touch "$TMPDIR/build.failed"
-		fi
-	)
+    # run in subshell to discard envar changes
+    (
+        source ./setenv-android.sh "$platform" # > /dev/null 2>&1
+        if ndk-build NDK_PROJECT_PATH="$PWD" NDK_APPLICATION_MK="$PWD/Application.mk" V=1
+        then
+            echo "$platform:$runtime ==> SUCCESS" >> "$TMPDIR/build.log"
+        else
+            echo "$platform:$runtime ==> FAILURE" >> "$TMPDIR/build.log"
+            touch "$TMPDIR/build.failed"
+        fi
+    )
 
-	echo ""
-	echo "===================================================================="
+    echo ""
+    echo "===================================================================="
 done
 
 echo ""
@@ -117,7 +124,7 @@ cat "$TMPDIR/build.log"
 
 # let the script fail if any of the builds failed
 if [ -f "$TMPDIR/build.failed" ]; then
-	exit 1
+    exit 1
 fi
 
 exit 0
