@@ -42,11 +42,11 @@ cp ../Android.mk .
 
 # Application.mk
 echo "Copying Application.mk"
-copy ../Application.mk .
+cp ../Application.mk .
 
-# Android.mk
-echo "Copying Android.mk"
-copy ../Android.mk .
+# make_neon.sh
+echo "Copying make_neon.sh"
+cp ../make_neon.sh .
 
 # Fix perms
 chmod +x setenv-android.sh
