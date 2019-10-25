@@ -24,6 +24,19 @@ if [[ ! -f cryptopp820.zip ]] || [[ ! -f cryptopp820.zip.sig ]]; then
     exit 1
 fi
 
+# Check the signature if GnuPG is present
+if [[ -n $(command -v gpg) ]]; then
+    if gpg --quiet --verify cryptopp820.zip.sig cryptopp820.zip 2>/dev/null; then
+        echo "Verified signature on cryptopp820.zip."
+    else
+        echo "Failed to verify signature on cryptopp820.zip."
+        echo "Is the public key available?"
+        echo "Also see https://www.cryptopp.com/wiki/Release_Signing."
+    fi
+else
+    echo "GnuPG is missing. Skipping signature check."
+fi
+
 # Unpack the Crypto++ 8.2 release zip
 echo "Unpacking cryptopp820.zip"
 unzip -aoq cryptopp820.zip -d .
