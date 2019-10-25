@@ -1,4 +1,4 @@
-## Crypto++ Android
+## Crypto++ Android.mk
 
 This repository contains Android build files for Wei Dai's [Crypto++](http://github.com/weidai11/cryptopp). It supplies `Android.mk` and `Application.mk` for Crypto++ for those who want to use Android build tools.
 
@@ -63,6 +63,14 @@ To run the script issue `ndk-build` with several NDK build variables set. `NDK_P
     ndk-build V=1 NDK_PROJECT_PATH="$PWD" NDK_APPLICATION_MK="$PWD/Application.mk"
 
 According to [NDK Build](http://developer.android.com/ndk/guides/ndk-build) you should set `NDK_DEBUG=1` for debug builds and `NDK_DEBUG=0` for release builds. You can also set `NDK_LOG=1` and `V=1` for verbose NDK builds which should help with diagnostics.
+
+## Crypto++ 8.2
+
+The current Andoid.mk is following Crypto++ Master, which is the upcoming Crypto++ 8.3. Due to NDK changes by the Android team the past scripts simply do not work. Too many things changed in the NDK and it broke our scripts. It took us a while to loop back to Andoid.mk and fix it for the current NDKs, which include NDK r19 and NDK r20.
+
+In Issue 1, [Test executable fails to build](https://github.com/noloader/cryptopp-android/issues/1), Logan Blevins pointed out he needed a release zip file and not Master due to policies and procedures. Blevins was absolutely correct, so we added a port of Android.mk for Crypto++ 8.2.
+
+The Android.mk for Crypto++ 8.2 is located in the `cryptopp8.2` subdirectory. The 8.2 subdirectory includes a script to download the latest `setenv-android.sh` and `GNUmakefile-cross` from Crypto++ Master. The script also copies `Android.mk` and `Application.mk` into the subdirectory. The script then patches relevant files. Finally the script builds Crypto++ 8.2 for the armeabi-v7a, arm64-v8a, x86, and x86_64 architectures.
 
 ## Collaboration
 We would like all maintainers to be collaborators on this repo. If you are a maintainer then please contact us so we can send you an invite.
