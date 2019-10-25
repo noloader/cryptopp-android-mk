@@ -88,11 +88,12 @@ PLATFORMS=(armeabi-v7a arm64-v8a x86 x86_64)
 # Thank god... one runtime and one compiler
 RUNTIMES=(libc++)
 
+# Clean all artifacts
+make distclean &>/dev/null
+rm -rf objs/
+
 for platform in "${PLATFORMS[@]}"
 do
-	# Clean all artifacts
-	make distclean &>/dev/null
-
 	# run in subshell to discard envar changes
 	(
 		source ./setenv-android.sh "$platform" # > /dev/null 2>&1
