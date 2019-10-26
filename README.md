@@ -66,7 +66,7 @@ According to [NDK Build](http://developer.android.com/ndk/guides/ndk-build) you 
 
 ## Crypto++ 8.2
 
-The current Andoid.mk is following Crypto++ Master, which is the upcoming Crypto++ 8.3. Due to NDK changes by the Android team the past scripts simply do not work. Too many things changed in the NDK and it broke our scripts. It took us a while to loop back to Andoid.mk and fix it for the current NDKs, which include NDK r19 and NDK r20.
+The current Andoid.mk is following Crypto++ Master, which is the upcoming Crypto++ 8.3. Due to NDK changes by the Android team the past scripts simply do not work. Too many things changed in the NDK and it broke our scripts. It took us a while to loop back to Andoid.mk and fix it for the current NDKs, which include NDK r19 and NDK r20. The net effect is, you can't build Crypto++ 8.0 through 8.2 with the scripts we supply.
 
 In Issue 1, [Test executable fails to build](https://github.com/noloader/cryptopp-android/issues/1), Logan Blevins pointed out he needed a release zip file and not Master due to policies and procedures. Blevins was absolutely correct, so we added a port of Android.mk for Crypto++ 8.2.
 
