@@ -100,16 +100,13 @@ echo ""
 # Cleanup old artifacts
 rm -rf "$TMPDIR/build.failed" 2>/dev/null
 rm -rf "$TMPDIR/build.log" 2>/dev/null
+rm -rf *.exe *.lib *.so *.a *.o objs/
 
 # Use all platforms
 PLATFORMS=(armeabi-v7a arm64-v8a x86 x86_64)
 
 # Thank god... one runtime and one compiler
 RUNTIMES=(libc++)
-
-# Clean all artifacts
-make clean &>/dev/null
-rm -rf objs/
 
 for platform in "${PLATFORMS[@]}"
 do
