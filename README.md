@@ -35,9 +35,8 @@ The general workflow is clone Wei Dai's crypto++, fetch the Android files, and t
     wget -O Application.mk https://raw.githubusercontent.com/noloader/cryptopp-android/master/Application.mk
     wget -O make_neon.sh https://raw.githubusercontent.com/noloader/cryptopp-android/master/make_neon.sh
 
-    # Perform this step if targeting armeabi-v7a
-    chmod +x make_neon.sh
-    ./make_neon.sh
+    # Create *.neon source files for armeabi-v7a
+    bash make_neon.sh
 
     ndk-build NDK_PROJECT_PATH=... NDK_APPLICATION_MK=...
 
