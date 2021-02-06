@@ -91,8 +91,9 @@ ifeq ($(TARGET_ARCH),arm)
 endif
 
 # Hack because our NEON files do not have the *.neon extension
+# https://www.cryptopp.com/wiki/Android.mk#make_neon.sh
 ifeq ($(TARGET_ARCH),arm)
-    $(shell ./make_neon.sh)  # copies *_simd.cpp to *_simd.cpp.neon
+    $(shell bash make_neon.sh)
     CRYPTOPP_NEON_FILES := $(sort $(wildcard *.cpp.neon))
     CRYPTOPP_LIB_FILES := $(filter-out %_simd.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(CRYPTOPP_LIB_FILES) $(CRYPTOPP_NEON_FILES)
@@ -138,12 +139,20 @@ endif
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_shared
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_LIB_FILES))
-LOCAL_CPPFLAGS := -Wall -DNDEBUG
+LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 LOCAL_LDFLAGS := -Wl,--exclude-libs,ALL -Wl,--as-needed
 
-LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
+# Configure for release unless NDK_DEBUG=1
+ifeq ($(NDK_DEBUG),1)
+    LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -DDEBUG
+else
+    LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -DNDEBUG
+endif
+
+LOCAL_EXPORT_CPPFLAGS := $(LOCAL_CPPFLAGS)
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
+LOCAL_EXPORT_LDFLAGS := -Wl,--gc-sections
 
 LOCAL_STATIC_LIBRARIES := cpufeatures
 
@@ -155,11 +164,19 @@ include $(BUILD_SHARED_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_static
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_LIB_FILES))
-LOCAL_CPPFLAGS := -Wall -DNDEBUG
+LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
-LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
+# Configure for release unless NDK_DEBUG=1
+ifeq ($(NDK_DEBUG),1)
+    LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -DDEBUG
+else
+    LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -DNDEBUG
+endif
+
+LOCAL_EXPORT_CPPFLAGS := $(LOCAL_CPPFLAGS)
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
+LOCAL_EXPORT_LDFLAGS := -Wl,--gc-sections
 
 LOCAL_STATIC_LIBRARIES := cpufeatures
 
@@ -171,9 +188,16 @@ include $(BUILD_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptest.exe
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_TEST_FILES))
-LOCAL_CPPFLAGS := -Wall -DNDEBUG
+LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 LOCAL_LDFLAGS := -Wl,--as-needed
+
+# Configure for release unless NDK_DEBUG=1
+ifeq ($(NDK_DEBUG),1)
+    LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -DDEBUG
+else
+    LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -DNDEBUG
+endif
 
 LOCAL_STATIC_LIBRARIES := cryptopp_static
 include $(BUILD_EXECUTABLE)
