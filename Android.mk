@@ -16,7 +16,13 @@
 ## to *_simd.cpp.neon files for the build system. Then, the
 ## ARMv7a recipe filters out the unneeded *_simd.cpp files from
 ## the CRYPTOPP_LIB_FILES file list, and adds the *_simd.cpp.neon
-## files to the CRYPTOPP_LIB_FILES file list. 
+## files to the CRYPTOPP_LIB_FILES file list.
+##
+## In 2021 we added test_shared.hxx and test_shared.cxx to produce
+## artifact test_shared.so. The test_shared recipe shows someone
+## how to build their shared object, if desired. A couple wiki
+## pages refers to it for demonstration purposes. The test_shared
+## recipe can be deleted.
 ##
 ## The library's makefile and the 'make distclean' recipe will
 ## clean the artifacts created by Android.mk, like obj/,
@@ -134,6 +140,30 @@ ifeq ($(NDK_LOG),1)
 endif
 
 #####################################################################
+# Static library
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := cryptopp_static
+LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_LIB_FILES))
+LOCAL_CPPFLAGS := -Wall
+LOCAL_CPP_FEATURES := rtti exceptions
+
+# Configure for release unless NDK_DEBUG=1
+ifeq ($(NDK_DEBUG),1)
+    LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -DDEBUG
+else
+    LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -DNDEBUG
+endif
+
+LOCAL_EXPORT_CPPFLAGS := $(LOCAL_CPPFLAGS)
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
+LOCAL_EXPORT_LDFLAGS := -Wl,--gc-sections
+
+LOCAL_STATIC_LIBRARIES := cpufeatures
+
+include $(BUILD_STATIC_LIBRARY)
+
+#####################################################################
 # Shared object
 
 include $(CLEAR_VARS)
@@ -159,13 +189,18 @@ LOCAL_STATIC_LIBRARIES := cpufeatures
 include $(BUILD_SHARED_LIBRARY)
 
 #####################################################################
-# Static library
+# Test shared object
+
+# This recipe is for demonstration purposes. It shows you how to
+# build your own shared object. It is OK to delete this recipe and
+# the source files test_shared.hxx and test_shared.cxx.
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := cryptopp_static
-LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_LIB_FILES))
+LOCAL_MODULE := test_shared
+LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),test_shared.cxx)
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
+LOCAL_LDFLAGS := -Wl,--exclude-libs,ALL -Wl,--as-needed
 
 # Configure for release unless NDK_DEBUG=1
 ifeq ($(NDK_DEBUG),1)
@@ -178,9 +213,9 @@ LOCAL_EXPORT_CPPFLAGS := $(LOCAL_CPPFLAGS)
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
 LOCAL_EXPORT_LDFLAGS := -Wl,--gc-sections
 
-LOCAL_STATIC_LIBRARIES := cpufeatures
+LOCAL_STATIC_LIBRARIES := cryptopp_static
 
-include $(BUILD_STATIC_LIBRARY)
+include $(BUILD_SHARED_LIBRARY)
 
 #####################################################################
 # Test program
@@ -200,6 +235,7 @@ else
 endif
 
 LOCAL_STATIC_LIBRARIES := cryptopp_static
+
 include $(BUILD_EXECUTABLE)
 
 #####################################################################
