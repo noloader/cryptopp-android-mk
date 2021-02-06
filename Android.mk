@@ -115,11 +115,13 @@ ifeq ($(TARGET_ARCH),arm64)
 endif
 
 ifeq ($(TARGET_ARCH),x86)
+    CRYPTOPP_LIB_FILES := $(filter-out %avx.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out neon_simd.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out donna_64.cpp,$(CRYPTOPP_LIB_FILES))
 endif
 
 ifeq ($(TARGET_ARCH),x86_64)
+    CRYPTOPP_LIB_FILES := $(filter-out %avx.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out neon_simd.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out donna_32.cpp,$(CRYPTOPP_LIB_FILES))
 endif
@@ -138,6 +140,14 @@ LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 LOCAL_LDFLAGS := -Wl,--exclude-libs,ALL -Wl,--as-needed
 
+# Intel machines and AVX2
+ifeq ($(TARGET_ARCH),x86)
+    LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -DCRYPTOPP_DISABLE_AVX2
+endif
+ifeq ($(TARGET_ARCH),x86_64)
+    LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -DCRYPTOPP_DISABLE_AVX2
+endif
+
 LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
 
@@ -153,6 +163,14 @@ LOCAL_MODULE := cryptopp_static
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_LIB_FILES))
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
+
+# Intel machines and AVX2
+ifeq ($(TARGET_ARCH),x86)
+    LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -DCRYPTOPP_DISABLE_AVX2
+endif
+ifeq ($(TARGET_ARCH),x86_64)
+    LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -DCRYPTOPP_DISABLE_AVX2
+endif
 
 LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
