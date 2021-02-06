@@ -12,6 +12,12 @@
 #endif
 
 extern "C" DLL_PUBLIC
+int sha1_hash(uint8_t* digest, size_t dsize, const uint8_t* message, size_t msize);
+
+extern "C" DLL_PUBLIC
 int sha256_hash(uint8_t* digest, size_t dsize, const uint8_t* message, size_t msize);
+
+extern "C" DLL_PUBLIC
+int sha512_hash(uint8_t* digest, size_t dsize, const uint8_t* message, size_t msize);
 
 #endif  // CRYPTOPP_TEST_SHARED
