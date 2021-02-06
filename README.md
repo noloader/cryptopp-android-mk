@@ -7,22 +7,22 @@ The purpose of Crypto++ Android build is two-fold:
 1. better support Android distributions
 2. supplement the GNUmakefile which is reaching its limits with repsect to GNUmake-based configuration
 
-The initial `Android.mk` and `Application.mk` based on Alex Afanasyev's pull request at http://github.com/weidai11/cryptopp/pull/3.
+The initial `Android.mk` and `Application.mk` based on Alex Afanasyev's pull request at http://github.com/weidai11/cryptopp/pull/3. The pull request went unmerged because we did not want to add the directory structure to accommodate Android builds. Though we did not merge Afanasyev's pull request, Afanasyev should get the credit for this work.
 
 There is a wiki page available that discusses the Android build system and the Crypto++ project files in more detail at [Android.mk (Command Line)](https://www.cryptopp.com/wiki/Android.mk_(Command_Line)).
 
 ## Testing
 
-The Android build files are a work in progress, so use them at your own risk. With that said <tt>cryptest-android.sh</tt> is used to test the build system.
+The Android build files are a work in progress, so use them at your own risk. With that said <tt>cryptest-ndk.sh</tt> is used to test the build system.
 
-In September 2016 the library added <tt>cryptest-android.sh</tt> to help test the Android.mk gear. The script is located in Crypto++'s <tt>TestScripts</tt> directory. The script downloads the Android.mk project files and builds the library.
+In September 2016 the library added <tt>cryptest-ndk.sh</tt> to help test the Android.mk gear. The script is located in Crypto++'s <tt>TestScripts</tt> directory. The script downloads the Android.mk project files and builds the library.
 
-If you want to use <tt>cryptest-android.sh</tt> to drive things then perform the following steps.
+If you want to use <tt>cryptest-ndk.sh</tt> to drive things then perform the following steps.
 
 ```
 cd cryptopp
-cp TestScripts/cryptest-android.sh .
-./cryptest-android.sh
+cp -p TestScripts/cryptest-ndk.sh .
+bash cryptest-ndk.sh
 ```
 
 ## Workflow
