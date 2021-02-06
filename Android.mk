@@ -181,4 +181,3 @@ include $(BUILD_EXECUTABLE)
 # Android cpuFeatures library
 
 $(call import-module,android/cpufeatures)
-
