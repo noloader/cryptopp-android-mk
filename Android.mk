@@ -40,6 +40,12 @@ endif
 
 LOCAL_PATH := $(call my-dir)
 
+ifneq $($(wildcard test_shared.hxx),)
+    ifneq $($(wildcard test_shared.cxx),)
+        TEST_SHARED_PROJECT := 1
+    endif
+endif
+
 #####################################################################
 # Adjust CRYPTOPP_PATH to suit your taste, like ../cryptopp-7.1/.
 # If CRYPTOPP_PATH is empty then it means the library files and the
@@ -195,6 +201,8 @@ include $(BUILD_SHARED_LIBRARY)
 # build your own shared object. It is OK to delete this recipe and
 # the source files test_shared.hxx and test_shared.cxx.
 
+ifeq ($(TEST_SHARED_PROJECT),1)
+
 include $(CLEAR_VARS)
 LOCAL_MODULE := test_shared
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),test_shared.cxx)
@@ -216,6 +224,8 @@ LOCAL_EXPORT_LDFLAGS := -Wl,--gc-sections
 LOCAL_STATIC_LIBRARIES := cryptopp_static
 
 include $(BUILD_SHARED_LIBRARY)
+
+endif
 
 #####################################################################
 # Test program
