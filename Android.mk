@@ -99,7 +99,8 @@ ifeq ($(TARGET_ARCH),arm)
 endif
 
 #####################################################################
-# Remove other unneeded source files. Even Intel does not need AVX.
+# Remove other unneeded source files. Modern Clang can hanbdle AVX.
+# If AVX breaks x86 or x86_64, uncomment the filter-out.
 
 ifeq ($(TARGET_ARCH),arm)
     CRYPTOPP_LIB_FILES := $(filter-out %avx.cpp,$(CRYPTOPP_LIB_FILES))
@@ -116,13 +117,13 @@ ifeq ($(TARGET_ARCH),arm64)
 endif
 
 ifeq ($(TARGET_ARCH),x86)
-    CRYPTOPP_LIB_FILES := $(filter-out %avx.cpp,$(CRYPTOPP_LIB_FILES))
+    # CRYPTOPP_LIB_FILES := $(filter-out %avx.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out neon_simd.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out donna_64.cpp,$(CRYPTOPP_LIB_FILES))
 endif
 
 ifeq ($(TARGET_ARCH),x86_64)
-    CRYPTOPP_LIB_FILES := $(filter-out %avx.cpp,$(CRYPTOPP_LIB_FILES))
+    # CRYPTOPP_LIB_FILES := $(filter-out %avx.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out neon_simd.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out donna_32.cpp,$(CRYPTOPP_LIB_FILES))
 endif
@@ -137,7 +138,7 @@ endif
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_shared
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_LIB_FILES))
-LOCAL_CPPFLAGS := -Wall
+LOCAL_CPPFLAGS := -Wall -DNDEBUG
 LOCAL_CPP_FEATURES := rtti exceptions
 LOCAL_LDFLAGS := -Wl,--exclude-libs,ALL -Wl,--as-needed
 
@@ -154,7 +155,7 @@ include $(BUILD_SHARED_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_static
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_LIB_FILES))
-LOCAL_CPPFLAGS := -Wall
+LOCAL_CPPFLAGS := -Wall -DNDEBUG
 LOCAL_CPP_FEATURES := rtti exceptions
 
 LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
@@ -170,7 +171,7 @@ include $(BUILD_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptest.exe
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_TEST_FILES))
-LOCAL_CPPFLAGS := -Wall
+LOCAL_CPPFLAGS := -Wall -DNDEBUG
 LOCAL_CPP_FEATURES := rtti exceptions
 LOCAL_LDFLAGS := -Wl,--as-needed
 
