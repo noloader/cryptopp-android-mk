@@ -198,7 +198,7 @@ include $(BUILD_SHARED_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_MODULE := test_shared
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),test_shared.cxx)
-LOCAL_CPPFLAGS := -Wall
+LOCAL_CPPFLAGS := -Wall -fvisibility=hidden
 LOCAL_CPP_FEATURES := rtti exceptions
 LOCAL_LDFLAGS := -Wl,--exclude-libs,ALL -Wl,--as-needed
 
