@@ -115,13 +115,11 @@ ifeq ($(TARGET_ARCH),arm64)
 endif
 
 ifeq ($(TARGET_ARCH),x86)
-    CRYPTOPP_LIB_FILES := $(filter-out %avx.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out neon_simd.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out donna_64.cpp,$(CRYPTOPP_LIB_FILES))
 endif
 
 ifeq ($(TARGET_ARCH),x86_64)
-    CRYPTOPP_LIB_FILES := $(filter-out %avx.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out neon_simd.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out donna_32.cpp,$(CRYPTOPP_LIB_FILES))
 endif
