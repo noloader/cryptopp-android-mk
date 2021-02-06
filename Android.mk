@@ -40,10 +40,13 @@ endif
 
 LOCAL_PATH := $(call my-dir)
 
-ifneq $($(wildcard test_shared.hxx),)
-    ifneq $($(wildcard test_shared.cxx),)
-        TEST_SHARED_PROJECT := 1
-    endif
+# Check for the test_shared source files. If present,
+# build the test shared object.
+ifneq ($(wildcard test_shared.hxx),)
+  ifneq ($(wildcard test_shared.cxx),)
+    $(info Crypto++: enabling test shared object)
+    TEST_SHARED_PROJECT := 1
+  endif
 endif
 
 #####################################################################
