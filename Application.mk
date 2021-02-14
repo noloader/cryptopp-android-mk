@@ -11,7 +11,8 @@
 ##
 ## For a list of Android Platforms and API levels see
 ## https://developer.android.com/ndk/guides/stable_apis.
-## Android 4.3 is android-18, and Android 5 is android-21.
+## Android 4.3 is android-18, Android 5 is android-21,
+## and Android 6.0 is android-23.
 ##
 ## Android recommends c++_shared for NDK version 16.0 and
 ## above. Android will be removing other runtime libraries
@@ -19,7 +20,7 @@
 ## https://developer.android.com/ndk/guides/cpp-support.
 
 APP_ABI := all
-APP_PLATFORM := android-23
+APP_PLATFORM := android-21
 
 # APP_STL := gnustl_shared
 APP_STL := c++_shared
