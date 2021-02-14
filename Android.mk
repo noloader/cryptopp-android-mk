@@ -106,10 +106,8 @@ endif
 # Hack because our NEON files do not have the *.neon extension
 # https://www.cryptopp.com/wiki/Android.mk#make_neon.sh
 ifeq ($(TARGET_ARCH),arm)
+    $(info Crypto++: creating *.neon files)
     $(shell bash make_neon.sh)
-    CRYPTOPP_NEON_FILES := $(sort $(wildcard *.cpp.neon))
-    CRYPTOPP_LIB_FILES := $(filter-out %_simd.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(CRYPTOPP_LIB_FILES) $(CRYPTOPP_NEON_FILES)
 endif
 
 #####################################################################
@@ -140,6 +138,14 @@ ifeq ($(TARGET_ARCH),x86_64)
     # CRYPTOPP_LIB_FILES := $(filter-out %avx.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out neon_simd.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out donna_32.cpp,$(CRYPTOPP_LIB_FILES))
+endif
+
+# Hack because our NEON files do not have the *.neon extension
+# https://www.cryptopp.com/wiki/Android.mk#make_neon.sh
+ifeq ($(TARGET_ARCH),arm)
+    # Change file extension to *.neon for armeabi-v7a. Note: Android Make
+    # appears to require a filename of foo.cpp.neon, and not foo.neon.
+    CRYPTOPP_LIB_FILES := $(patsubst %_simd.cpp,%_simd.cpp.neon,$(CRYPTOPP_LIB_FILES))
 endif
 
 ifeq ($(NDK_LOG),1)
