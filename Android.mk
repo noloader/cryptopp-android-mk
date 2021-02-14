@@ -101,8 +101,6 @@ CRYPTOPP_LIB_FILES := $(CRYPTOPP_INIT_FILES) $(CRYPTOPP_LIB_FILES)
 ifeq ($(TARGET_ARCH),arm)
     CRYPTOPP_ARM_FILES := aes_armv4.S sha1_armv4.S sha256_armv4.S sha512_armv4.S
     CRYPTOPP_LIB_FILES := $(CRYPTOPP_LIB_FILES) $(CRYPTOPP_ARM_FILES)
-    LOCAL_ARM_MODE := arm
-    LOCAL_FILTER_ASM :=
 endif
 
 # Hack because our NEON files do not have the *.neon extension
@@ -157,6 +155,11 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_LIB_FILES))
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
+ifeq ($(TARGET_ARCH),arm)
+    LOCAL_ARM_MODE := arm
+    LOCAL_FILTER_ASM :=
+endif
+
 # Configure for release unless NDK_DEBUG=1
 ifeq ($(NDK_DEBUG),1)
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -DDEBUG
@@ -181,6 +184,11 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_LIB_FILES))
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 LOCAL_LDFLAGS := -Wl,--exclude-libs,ALL -Wl,--as-needed
+
+ifeq ($(TARGET_ARCH),arm)
+    LOCAL_ARM_MODE := arm
+    LOCAL_FILTER_ASM :=
+endif
 
 # Configure for release unless NDK_DEBUG=1
 ifeq ($(NDK_DEBUG),1)
@@ -213,6 +221,11 @@ LOCAL_CPPFLAGS := -Wall -fvisibility=hidden
 LOCAL_CPP_FEATURES := rtti exceptions
 LOCAL_LDFLAGS := -Wl,--exclude-libs,ALL -Wl,--as-needed
 
+ifeq ($(TARGET_ARCH),arm)
+    LOCAL_ARM_MODE := arm
+    LOCAL_FILTER_ASM :=
+endif
+
 # Configure for release unless NDK_DEBUG=1
 ifeq ($(NDK_DEBUG),1)
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -DDEBUG
@@ -239,6 +252,11 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_TEST_FILES))
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 LOCAL_LDFLAGS := -Wl,--as-needed
+
+ifeq ($(TARGET_ARCH),arm)
+    LOCAL_ARM_MODE := arm
+    LOCAL_FILTER_ASM :=
+endif
 
 # Configure for release unless NDK_DEBUG=1
 ifeq ($(NDK_DEBUG),1)
