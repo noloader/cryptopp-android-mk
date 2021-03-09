@@ -9,15 +9,6 @@
 ## The CPU Features library provides caps and is documented at
 ## https://developer.android.com/ndk/guides/cpu-features.
 ##
-## Android.mk would be mostly boring except for NEON. The
-## library names its SIMD files like neon_simd.cpp, but Android
-## build system requires neon_simd.cpp.neon to add the compiler
-## options. The script 'make_neon.sh' copies the *_simd.cpp files
-## to *_simd.cpp.neon files for the build system. Then, the
-## ARMv7a recipe filters out the unneeded *_simd.cpp files from
-## the CRYPTOPP_LIB_FILES file list, and adds the *_simd.cpp.neon
-## files to the CRYPTOPP_LIB_FILES file list.
-##
 ## In 2021 we added test_shared.hxx and test_shared.cxx to produce
 ## artifact test_shared.so. The test_shared recipe shows someone
 ## how to build their shared object, if desired. A couple wiki
@@ -26,7 +17,7 @@
 ##
 ## At Crypto++ 8.6 we used architecture specific flags like in the
 ## makefile. The arch specific flags complicated Android.mk because
-## we have to build each source file as a local library. To see
+## we have to build a local library for each source file. To see
 ## Android.mk before the changes checkout CRYPTOPP_8_5_0 tag.
 ## If you don't want to build like Android.mk does, then add
 ## -DCRYPTOPP_DISABLE_ANDROID_ADVANCED_ISA=1 to CPPFLAGS. The
@@ -106,54 +97,40 @@ ifeq ($(TARGET_ARCH),arm)
     CRYPTOPP_LIB_FILES := $(CRYPTOPP_LIB_FILES) $(CRYPTOPP_ARM_FILES)
 endif
 
-# Hack because our NEON files do not have the *.neon extension
-# https://www.cryptopp.com/wiki/Android.mk#make_neon.sh
-#ifeq ($(TARGET_ARCH),arm)
-#    $(info Crypto++: creating *.neon files)
-#    $(shell bash make_neon.sh)
-#endif
-
 #####################################################################
-# Remove other unneeded source files. Modern Clang can handle AVX.
-# If AVX breaks x86 or x86_64, uncomment the filter-out.
+# Remove other unneeded source files.
 
 ifeq ($(TARGET_ARCH),arm)
-    CRYPTOPP_LIB_FILES := $(filter-out %avx.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out ppc_simd.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out sse_simd.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out donna_64.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(filter-out donna_sse.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out %_avx.cpp,$(CRYPTOPP_LIB_FILES))
 endif
 
 ifeq ($(TARGET_ARCH),arm64)
-    CRYPTOPP_LIB_FILES := $(filter-out %avx.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out ppc_simd.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out sse_simd.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out donna_32.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(filter-out donna_sse.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out %_avx.cpp,$(CRYPTOPP_LIB_FILES))
 endif
 
 ifeq ($(TARGET_ARCH),x86)
-    # CRYPTOPP_LIB_FILES := $(filter-out %avx.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out ppc_simd.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out neon_simd.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out donna_64.cpp,$(CRYPTOPP_LIB_FILES))
 endif
 
 ifeq ($(TARGET_ARCH),x86_64)
-    # CRYPTOPP_LIB_FILES := $(filter-out %avx.cpp,$(CRYPTOPP_LIB_FILES))
+    CRYPTOPP_LIB_FILES := $(filter-out ppc_simd.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out neon_simd.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out donna_32.cpp,$(CRYPTOPP_LIB_FILES))
 endif
 
-# Hack because our NEON files do not have the *.neon extension
-# https://www.cryptopp.com/wiki/Android.mk#make_neon.sh
-ifeq ($(TARGET_ARCH),arm)
-    # Change file extension to *.neon for armeabi-v7a. Note: Android Make
-    # appears to require a filename of foo.cpp.neon, and not foo.neon.
-    CRYPTOPP_LIB_FILES := $(patsubst %_simd.cpp,%_simd.cpp.neon,$(CRYPTOPP_LIB_FILES))
-endif
-
+#####################################################################
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
 # local library with the arch options.
+
 CRYPTOPP_LIB_FILES := $(filter-out aria_simd.cpp,$(CRYPTOPP_LIB_FILES))
 CRYPTOPP_LIB_FILES := $(filter-out blake2b_simd.cpp,$(CRYPTOPP_LIB_FILES))
 CRYPTOPP_LIB_FILES := $(filter-out blake2s_simd.cpp,$(CRYPTOPP_LIB_FILES))
