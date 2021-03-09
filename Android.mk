@@ -292,6 +292,7 @@ include $(BUILD_STATIC_LIBRARY)
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
 # local library with the arch options.
+
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_rijndael
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),rijndael_simd.cpp)
