@@ -9,11 +9,11 @@
 ## The CPU Features library provides caps and is documented at
 ## https://developer.android.com/ndk/guides/cpu-features.
 ##
-## In 2021 we added test_shared.hxx and test_shared.cxx to produce
-## artifact test_shared.so. The test_shared recipe shows someone
+## At Crypto++ 8.5 we added test_shared.hxx and test_shared.cxx to
+## produce artifact test_shared.so. The test_shared recipe shows
 ## how to build their shared object, if desired. A couple wiki
-## pages refers to it for demonstration purposes. The test_shared
-## recipe can be deleted.
+## pages refers to it for demonstration purposes. The
+## test_shared recipe can be deleted.
 ##
 ## At Crypto++ 8.6 we used architecture specific flags like in the
 ## makefile. The arch specific flags complicated Android.mk because
