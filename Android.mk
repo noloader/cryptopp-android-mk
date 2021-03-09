@@ -562,7 +562,7 @@ LOCAL_MODULE := test_shared
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),test_shared.cxx)
 LOCAL_CPPFLAGS := -Wall -fvisibility=hidden
 LOCAL_CPP_FEATURES := rtti exceptions
-LOCAL_LDFLAGS := -Wl,--exclude-libs,ALL -Wl,--as-needed
+LOCAL_LDFLAGS := -Wl,--gc-sections -Wl,--exclude-libs,ALL -Wl,--as-needed
 
 ifeq ($(TARGET_ARCH),arm)
     LOCAL_ARM_MODE := arm
@@ -590,7 +590,7 @@ LOCAL_MODULE := cryptest.exe
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_TEST_FILES))
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
-LOCAL_LDFLAGS := -Wl,--as-needed
+LOCAL_LDFLAGS := -Wl,--gc-sections -Wl,--as-needed
 
 ifeq ($(TARGET_ARCH),arm)
     LOCAL_ARM_MODE := arm
