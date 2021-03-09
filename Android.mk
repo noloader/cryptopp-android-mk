@@ -10,18 +10,19 @@
 ## https://developer.android.com/ndk/guides/cpu-features.
 ##
 ## At Crypto++ 8.5 we added test_shared.hxx and test_shared.cxx to
-## produce artifact test_shared.so. The test_shared recipe shows
-## how to build their shared object, if desired. A couple wiki
-## pages refers to it for demonstration purposes. The
-## test_shared recipe can be deleted.
+## produce libtest_shared.so. The test_shared recipe shows you how
+## to build a simple shared object, if desired. A couple wiki pages
+## refers to it for demonstration purposes. The test_shared recipe
+## can be deleted at any time.
 ##
 ## At Crypto++ 8.6 we used architecture specific flags like in the
 ## makefile. The arch specific flags complicated Android.mk because
-## we have to build a local library for each source file. To see
-## Android.mk before the changes checkout CRYPTOPP_8_5_0 tag.
-## If you don't want to build like Android.mk does, then add
-## -DCRYPTOPP_DISABLE_ANDROID_ADVANCED_ISA=1 to CPPFLAGS. The
-## define disables all the advanced ISA code paths.
+## we have to build a local library for each source file with an
+## arch option. To see Android.mk before the changes checkout
+## CRYPTOPP_8_5_0 tag. If you don't want to build like Android.mk
+## does, then add -DCRYPTOPP_DISABLE_ANDROID_ADVANCED_ISA=1 to
+## CPPFLAGS. The define disables the advanced ISA code paths used
+## by Android.
 ##
 ## The library's makefile and the 'make distclean' recipe will
 ## clean the artifacts created by Android.mk, like obj/,
@@ -84,7 +85,7 @@ CRYPTOPP_TEST_FILES := $(filter-out adhoc.cpp,$(CRYPTOPP_TEST_FILES))
 # deterministic builds.
 
 CRYPTOPP_INIT_FILES := cryptlib.cpp cpu.cpp integer.cpp
-CRYPTOPP_ALL_FILES := $(sort $(filter-out ppc_% adhoc.cpp,$(wildcard *.cpp)))
+CRYPTOPP_ALL_FILES := $(sort $(filter-out adhoc.cpp,$(wildcard *.cpp)))
 CRYPTOPP_LIB_FILES := $(filter-out $(CRYPTOPP_TEST_FILES),$(CRYPTOPP_ALL_FILES))
 CRYPTOPP_LIB_FILES := $(filter-out $(CRYPTOPP_INIT_FILES),$(CRYPTOPP_LIB_FILES))
 CRYPTOPP_LIB_FILES := $(CRYPTOPP_INIT_FILES) $(CRYPTOPP_LIB_FILES)
@@ -98,31 +99,27 @@ ifeq ($(TARGET_ARCH),arm)
 endif
 
 #####################################################################
-# Remove other unneeded source files.
+# Remove unneeded arch specific source files
+
+CRYPTOPP_LIB_FILES := $(filter-out ppc_simd.cpp,$(CRYPTOPP_LIB_FILES))
+CRYPTOPP_LIB_FILES := $(filter-out neon_simd.cpp,$(CRYPTOPP_LIB_FILES))
+CRYPTOPP_LIB_FILES := $(filter-out sse_simd.cpp,$(CRYPTOPP_LIB_FILES))
 
 ifeq ($(TARGET_ARCH),arm)
-    CRYPTOPP_LIB_FILES := $(filter-out ppc_simd.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(filter-out sse_simd.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out donna_64.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out %_avx.cpp,$(CRYPTOPP_LIB_FILES))
 endif
 
 ifeq ($(TARGET_ARCH),arm64)
-    CRYPTOPP_LIB_FILES := $(filter-out ppc_simd.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(filter-out sse_simd.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out donna_32.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out %_avx.cpp,$(CRYPTOPP_LIB_FILES))
 endif
 
 ifeq ($(TARGET_ARCH),x86)
-    CRYPTOPP_LIB_FILES := $(filter-out ppc_simd.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(filter-out neon_simd.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out donna_64.cpp,$(CRYPTOPP_LIB_FILES))
 endif
 
 ifeq ($(TARGET_ARCH),x86_64)
-    CRYPTOPP_LIB_FILES := $(filter-out ppc_simd.cpp,$(CRYPTOPP_LIB_FILES))
-    CRYPTOPP_LIB_FILES := $(filter-out neon_simd.cpp,$(CRYPTOPP_LIB_FILES))
     CRYPTOPP_LIB_FILES := $(filter-out donna_32.cpp,$(CRYPTOPP_LIB_FILES))
 endif
 
@@ -130,6 +127,7 @@ endif
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
 # local library with the arch options.
+# https://github.com/weidai11/cryptopp/issues/1015
 
 CRYPTOPP_LIB_FILES := $(filter-out aria_simd.cpp,$(CRYPTOPP_LIB_FILES))
 CRYPTOPP_LIB_FILES := $(filter-out blake2b_simd.cpp,$(CRYPTOPP_LIB_FILES))
@@ -140,7 +138,6 @@ CRYPTOPP_LIB_FILES := $(filter-out crc_simd.cpp,$(CRYPTOPP_LIB_FILES))
 CRYPTOPP_LIB_FILES := $(filter-out gcm_simd.cpp,$(CRYPTOPP_LIB_FILES))
 CRYPTOPP_LIB_FILES := $(filter-out gf2n_simd.cpp,$(CRYPTOPP_LIB_FILES))
 CRYPTOPP_LIB_FILES := $(filter-out lea_simd.cpp,$(CRYPTOPP_LIB_FILES))
-CRYPTOPP_LIB_FILES := $(filter-out neon_simd.cpp,$(CRYPTOPP_LIB_FILES))
 CRYPTOPP_LIB_FILES := $(filter-out rijndael_simd.cpp,$(CRYPTOPP_LIB_FILES))
 CRYPTOPP_LIB_FILES := $(filter-out sm4_simd.cpp,$(CRYPTOPP_LIB_FILES))
 CRYPTOPP_LIB_FILES := $(filter-out sha_simd.cpp,$(CRYPTOPP_LIB_FILES))
@@ -158,6 +155,7 @@ endif
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
 # local library with the arch options.
+# https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_aria
@@ -165,7 +163,6 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),aria_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
-# https://github.com/weidai11/cryptopp/issues/1015
 ifeq ($(TARGET_ARCH),arm)
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -march=armv7-a -mfpu=neon
 endif
@@ -178,6 +175,7 @@ include $(BUILD_STATIC_LIBRARY)
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
 # local library with the arch options.
+# https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_blake2s
@@ -185,7 +183,6 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),blake2s_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
-# https://github.com/weidai11/cryptopp/issues/1015
 ifeq ($(TARGET_ARCH),arm)
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -march=armv7-a -mfpu=neon
 else ifeq ($(TARGET_ARCH),x86)
@@ -202,6 +199,7 @@ include $(BUILD_STATIC_LIBRARY)
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
 # local library with the arch options.
+# https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_blake2b
@@ -209,7 +207,6 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),blake2b_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
-# https://github.com/weidai11/cryptopp/issues/1015
 ifeq ($(TARGET_ARCH),arm)
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -march=armv7-a -mfpu=neon
 else ifeq ($(TARGET_ARCH),x86)
@@ -226,6 +223,7 @@ include $(BUILD_STATIC_LIBRARY)
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
 # local library with the arch options.
+# https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_chacha
@@ -233,7 +231,6 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),chacha_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
-# https://github.com/weidai11/cryptopp/issues/1015
 ifeq ($(TARGET_ARCH),arm)
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -march=armv7-a -mfpu=neon
 else ifeq ($(TARGET_ARCH),x86)
@@ -248,6 +245,9 @@ include $(BUILD_STATIC_LIBRARY)
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
 # local library with the arch options.
+# https://github.com/weidai11/cryptopp/issues/1015
+
+ifneq ($(filter x86 x86_64,$(TARGET_ARCH)),)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_chacha_avx
@@ -255,14 +255,17 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),chacha_avx.cpp)
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
-# https://github.com/weidai11/cryptopp/issues/1015
 ifeq ($(TARGET_ARCH),x86)
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -mavx2
 else ifeq ($(TARGET_ARCH),x86_64)
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -mavx2
 endif
 
+CRYPTOPP_CHACHA_AVX := cryptopp_chacha_avx
+
 include $(BUILD_STATIC_LIBRARY)
+
+endif
 
 #####################################################################
 # LEA using advanced ISA.
@@ -270,6 +273,7 @@ include $(BUILD_STATIC_LIBRARY)
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
 # local library with the arch options.
+# https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_lea
@@ -277,7 +281,6 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),lea_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
-# https://github.com/weidai11/cryptopp/issues/1015
 ifeq ($(TARGET_ARCH),arm)
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -march=armv7-a -mfpu=neon
 endif
@@ -290,6 +293,9 @@ include $(BUILD_STATIC_LIBRARY)
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
 # local library with the arch options.
+# https://github.com/weidai11/cryptopp/issues/1015
+
+ifeq ($(TARGET_ARCH),arm)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_neon
@@ -297,12 +303,13 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),neon_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
-# https://github.com/weidai11/cryptopp/issues/1015
-ifeq ($(TARGET_ARCH),arm)
-    LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -march=armv7-a -mfpu=neon
-endif
+LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -march=armv7-a -mfpu=neon
 
 include $(BUILD_STATIC_LIBRARY)
+
+CRYPTOPP_NEON := cryptopp_neon
+
+endif
 
 #####################################################################
 # CRC using advanced ISA.
@@ -310,6 +317,7 @@ include $(BUILD_STATIC_LIBRARY)
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
 # local library with the arch options.
+# https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_crc
@@ -317,7 +325,6 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),crc_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
-# https://github.com/weidai11/cryptopp/issues/1015
 ifeq ($(TARGET_ARCH),arm64)
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -march=armv8-a+crc
 else ifeq ($(TARGET_ARCH),x86)
@@ -334,6 +341,7 @@ include $(BUILD_STATIC_LIBRARY)
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
 # local library with the arch options.
+# https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_rijndael
@@ -341,7 +349,6 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),rijndael_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
-# https://github.com/weidai11/cryptopp/issues/1015
 ifeq ($(TARGET_ARCH),arm64)
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -march=armv8-a+crypto
 else ifeq ($(TARGET_ARCH),x86)
@@ -358,6 +365,7 @@ include $(BUILD_STATIC_LIBRARY)
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
 # local library with the arch options
+# https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_sm4
@@ -365,7 +373,6 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),sm4_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
-# https://github.com/weidai11/cryptopp/issues/1015
 ifeq ($(TARGET_ARCH),arm64)
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -march=armv8-a+crypto
 else ifeq ($(TARGET_ARCH),x86)
@@ -382,6 +389,7 @@ include $(BUILD_STATIC_LIBRARY)
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
 # local library with the arch options
+# https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_gcm
@@ -389,7 +397,6 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),gcm_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
-# https://github.com/weidai11/cryptopp/issues/1015
 ifeq ($(TARGET_ARCH),arm)
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -march=armv7-a -mfpu=neon
 else ifeq ($(TARGET_ARCH),arm64)
@@ -408,6 +415,7 @@ include $(BUILD_STATIC_LIBRARY)
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
 # local library with the arch options
+# https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_gf2n
@@ -415,7 +423,6 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),gf2n_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
-# https://github.com/weidai11/cryptopp/issues/1015
 ifeq ($(TARGET_ARCH),arm64)
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -march=armv8-a+crypto
 else ifeq ($(TARGET_ARCH),x86)
@@ -432,6 +439,7 @@ include $(BUILD_STATIC_LIBRARY)
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
 # local library with the arch options.
+# https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_sha
@@ -439,7 +447,6 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),sha_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
-# https://github.com/weidai11/cryptopp/issues/1015
 ifeq ($(TARGET_ARCH),arm64)
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -march=armv8-a+crypto
 else ifeq ($(TARGET_ARCH),x86)
@@ -456,6 +463,7 @@ include $(BUILD_STATIC_LIBRARY)
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
 # local library with the arch options.
+# https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_shacal2
@@ -463,7 +471,6 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),shacal2_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
-# https://github.com/weidai11/cryptopp/issues/1015
 ifeq ($(TARGET_ARCH),arm64)
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -march=armv8-a+crypto
 else ifeq ($(TARGET_ARCH),x86)
@@ -480,6 +487,7 @@ include $(BUILD_STATIC_LIBRARY)
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
 # local library with the arch options.
+# https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_simon
@@ -487,7 +495,6 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),simon128_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
-# https://github.com/weidai11/cryptopp/issues/1015
 ifeq ($(TARGET_ARCH),arm)
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -march=armv7-a -mfpu=neon
 else ifeq ($(TARGET_ARCH),x86)
@@ -504,6 +511,7 @@ include $(BUILD_STATIC_LIBRARY)
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
 # local library with the arch options.
+# https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cryptopp_speck
@@ -511,7 +519,6 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),speck128_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
-# https://github.com/weidai11/cryptopp/issues/1015
 ifeq ($(TARGET_ARCH),arm)
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -march=armv7-a -mfpu=neon
 else ifeq ($(TARGET_ARCH),x86)
@@ -521,6 +528,30 @@ else ifeq ($(TARGET_ARCH),x86_64)
 endif
 
 include $(BUILD_STATIC_LIBRARY)
+
+#####################################################################
+# SSE using advanced ISA.
+
+# Hack because Android.mk does not allow us to specify arch options
+# during compile of a source file. Instead, we have to build a
+# local library with the arch options.
+# https://github.com/weidai11/cryptopp/issues/1015
+
+ifeq ($(TARGET_ARCH),x86)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := cryptopp_sse
+LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),sse_simd.cpp)
+LOCAL_CPPFLAGS := -Wall
+LOCAL_CPP_FEATURES := rtti exceptions
+
+LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -msse2
+
+include $(BUILD_STATIC_LIBRARY)
+
+CRYPTOPP_SSE := cryptopp_sse
+
+endif
 
 #####################################################################
 # Static library
@@ -543,17 +574,19 @@ else
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -DNDEBUG
 endif
 
+# Include all the local libraries for arch specific compiles.
 # https://github.com/weidai11/cryptopp/issues/1015
 LOCAL_STATIC_LIBRARIES := cpufeatures \
     cryptopp_aria \
     cryptopp_blake2s cryptopp_blake2b \
-    cryptopp_chacha cryptopp_chacha_avx \
+    cryptopp_chacha $(CRYPTOPP_CHACHA_AVX) \
     cryptopp_crc \
     cryptopp_gcm cryptopp_gf2n \
-    cryptopp_lea cryptopp_neon \
+    cryptopp_lea $(CRYPTOPP_NEON) \
     cryptopp_rijndael cryptopp_sm4 \
     cryptopp_sha cryptopp_shacal2 \
-    cryptopp_simon cryptopp_speck
+    cryptopp_simon cryptopp_speck \
+    $(CRYPTOPP_SSE)
 
 include $(BUILD_STATIC_LIBRARY)
 
@@ -579,17 +612,19 @@ else
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -DNDEBUG
 endif
 
+# Include all the local libraries for arch specific compiles.
 # https://github.com/weidai11/cryptopp/issues/1015
 LOCAL_STATIC_LIBRARIES := cpufeatures \
     cryptopp_aria \
     cryptopp_blake2s cryptopp_blake2b \
-    cryptopp_chacha cryptopp_chacha_avx \
+    cryptopp_chacha $(CRYPTOPP_CHACHA_AVX) \
     cryptopp_crc \
     cryptopp_gcm cryptopp_gf2n \
-    cryptopp_lea cryptopp_neon \
+    cryptopp_lea $(CRYPTOPP_NEON) \
     cryptopp_rijndael cryptopp_sm4 \
     cryptopp_sha cryptopp_shacal2 \
-    cryptopp_simon cryptopp_speck
+    cryptopp_simon cryptopp_speck \
+    $(CRYPTOPP_SSE)
 
 include $(BUILD_SHARED_LIBRARY)
 
