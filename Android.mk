@@ -150,7 +150,7 @@ ifeq ($(NDK_LOG),1)
 endif
 
 #####################################################################
-# ARIA using advanced ISA.
+# ARIA using specific ISA.
 
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
@@ -171,7 +171,7 @@ endif
 include $(BUILD_STATIC_LIBRARY)
 
 #####################################################################
-# BLAKE2s using advanced ISA.
+# BLAKE2s using specific ISA.
 
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
@@ -196,7 +196,7 @@ endif
 include $(BUILD_STATIC_LIBRARY)
 
 #####################################################################
-# BLAKE2b using advanced ISA.
+# BLAKE2b using specific ISA.
 
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
@@ -221,7 +221,7 @@ endif
 include $(BUILD_STATIC_LIBRARY)
 
 #####################################################################
-# ChaCha using advanced ISA.
+# ChaCha using specific ISA.
 
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
@@ -244,7 +244,7 @@ endif
 include $(BUILD_STATIC_LIBRARY)
 
 #####################################################################
-# ChaCha using advanced ISA.
+# ChaCha using specific ISA.
 
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
@@ -273,7 +273,7 @@ include $(BUILD_STATIC_LIBRARY)
 endif
 
 #####################################################################
-# LEA using advanced ISA.
+# LEA using specific ISA.
 
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
@@ -294,7 +294,7 @@ endif
 include $(BUILD_STATIC_LIBRARY)
 
 #####################################################################
-# NEON using advanced ISA.
+# NEON using specific ISA.
 
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
@@ -319,7 +319,7 @@ CRYPTOPP_NEON := cryptopp_neon
 endif
 
 #####################################################################
-# CRC using advanced ISA.
+# CRC using specific ISA.
 
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
@@ -344,7 +344,7 @@ endif
 include $(BUILD_STATIC_LIBRARY)
 
 #####################################################################
-# AES using advanced ISA.
+# AES using specific ISA.
 
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
@@ -369,7 +369,7 @@ endif
 include $(BUILD_STATIC_LIBRARY)
 
 #####################################################################
-# SM4 using advanced ISA.
+# SM4 using specific ISA.
 
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
@@ -394,7 +394,7 @@ endif
 include $(BUILD_STATIC_LIBRARY)
 
 #####################################################################
-# GCM using advanced ISA.
+# GCM using specific ISA.
 
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
@@ -421,7 +421,7 @@ endif
 include $(BUILD_STATIC_LIBRARY)
 
 #####################################################################
-# GF2N using advanced ISA.
+# GF2N using specific ISA.
 
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
@@ -446,7 +446,7 @@ endif
 include $(BUILD_STATIC_LIBRARY)
 
 #####################################################################
-# SHA using advanced ISA.
+# SHA using specific ISA.
 
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
@@ -471,7 +471,7 @@ endif
 include $(BUILD_STATIC_LIBRARY)
 
 #####################################################################
-# SHACAL2 using advanced ISA.
+# SHACAL2 using specific ISA.
 
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
@@ -496,7 +496,7 @@ endif
 include $(BUILD_STATIC_LIBRARY)
 
 #####################################################################
-# SIMON using advanced ISA.
+# SIMON using specific ISA.
 
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
@@ -521,7 +521,7 @@ endif
 include $(BUILD_STATIC_LIBRARY)
 
 #####################################################################
-# SPECK using advanced ISA.
+# SPECK using specific ISA.
 
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
@@ -546,7 +546,7 @@ endif
 include $(BUILD_STATIC_LIBRARY)
 
 #####################################################################
-# SSE using advanced ISA.
+# SSE using specific ISA.
 
 # Hack because Android.mk does not allow us to specify arch options
 # during compile of a source file. Instead, we have to build a
