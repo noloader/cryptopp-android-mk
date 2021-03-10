@@ -158,6 +158,7 @@ endif
 # https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := cryptopp_aria
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),aria_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
@@ -178,6 +179,7 @@ include $(BUILD_STATIC_LIBRARY)
 # https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := cryptopp_blake2s
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),blake2s_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
@@ -202,6 +204,7 @@ include $(BUILD_STATIC_LIBRARY)
 # https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := cryptopp_blake2b
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),blake2b_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
@@ -226,6 +229,7 @@ include $(BUILD_STATIC_LIBRARY)
 # https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := cryptopp_chacha
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),chacha_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
@@ -250,6 +254,7 @@ include $(BUILD_STATIC_LIBRARY)
 ifneq ($(filter x86 x86_64,$(TARGET_ARCH)),)
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := cryptopp_chacha_avx
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),chacha_avx.cpp)
 LOCAL_CPPFLAGS := -Wall
@@ -276,6 +281,7 @@ endif
 # https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := cryptopp_lea
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),lea_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
@@ -298,6 +304,7 @@ include $(BUILD_STATIC_LIBRARY)
 ifeq ($(TARGET_ARCH),arm)
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := cryptopp_neon
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),neon_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
@@ -320,6 +327,7 @@ endif
 # https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := cryptopp_crc
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),crc_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
@@ -344,6 +352,7 @@ include $(BUILD_STATIC_LIBRARY)
 # https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := cryptopp_rijndael
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),rijndael_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
@@ -368,6 +377,7 @@ include $(BUILD_STATIC_LIBRARY)
 # https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := cryptopp_sm4
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),sm4_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
@@ -392,6 +402,7 @@ include $(BUILD_STATIC_LIBRARY)
 # https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := cryptopp_gcm
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),gcm_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
@@ -418,6 +429,7 @@ include $(BUILD_STATIC_LIBRARY)
 # https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := cryptopp_gf2n
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),gf2n_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
@@ -442,6 +454,7 @@ include $(BUILD_STATIC_LIBRARY)
 # https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := cryptopp_sha
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),sha_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
@@ -466,6 +479,7 @@ include $(BUILD_STATIC_LIBRARY)
 # https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := cryptopp_shacal2
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),shacal2_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
@@ -490,6 +504,7 @@ include $(BUILD_STATIC_LIBRARY)
 # https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := cryptopp_simon
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),simon128_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
@@ -514,6 +529,7 @@ include $(BUILD_STATIC_LIBRARY)
 # https://github.com/weidai11/cryptopp/issues/1015
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := cryptopp_speck
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),speck128_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
@@ -540,6 +556,7 @@ include $(BUILD_STATIC_LIBRARY)
 ifeq ($(TARGET_ARCH),x86)
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := cryptopp_sse
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),sse_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
@@ -557,6 +574,7 @@ endif
 # Static library
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := cryptopp_static
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_LIB_FILES))
 LOCAL_CPPFLAGS := -Wall
@@ -594,6 +612,7 @@ include $(BUILD_STATIC_LIBRARY)
 # Shared object
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := cryptopp_shared
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_LIB_FILES))
 LOCAL_CPPFLAGS := -Wall
@@ -638,6 +657,7 @@ include $(BUILD_SHARED_LIBRARY)
 ifeq ($(TEST_SHARED_PROJECT),1)
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := test_shared
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),test_shared.cxx)
 LOCAL_CPPFLAGS := -Wall -fvisibility=hidden
@@ -666,6 +686,7 @@ endif
 # Test program
 
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := cryptest.exe
 LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),$(CRYPTOPP_TEST_FILES))
 LOCAL_CPPFLAGS := -Wall
