@@ -301,7 +301,7 @@ include $(BUILD_STATIC_LIBRARY)
 # local library with the arch options.
 # https://github.com/weidai11/cryptopp/issues/1015
 
-ifeq ($(TARGET_ARCH),arm)
+ifneq ($(filter arm arm64,$(TARGET_ARCH)),)
 
 include $(CLEAR_VARS)
 
@@ -310,7 +310,9 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),neon_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
-LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -march=armv7-a -mfpu=neon
+ifeq ($(TARGET_ARCH),arm)
+    LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -march=armv7-a -mfpu=neon
+endif
 
 include $(BUILD_STATIC_LIBRARY)
 
@@ -553,7 +555,7 @@ include $(BUILD_STATIC_LIBRARY)
 # local library with the arch options.
 # https://github.com/weidai11/cryptopp/issues/1015
 
-ifeq ($(TARGET_ARCH),x86)
+ifneq ($(filter x86 x86_64,$(TARGET_ARCH)),)
 
 include $(CLEAR_VARS)
 
@@ -562,7 +564,9 @@ LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),sse_simd.cpp)
 LOCAL_CPPFLAGS := -Wall
 LOCAL_CPP_FEATURES := rtti exceptions
 
-LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -msse2
+ifeq ($(TARGET_ARCH),x86)
+    LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -msse2
+endif
 
 include $(BUILD_STATIC_LIBRARY)
 
