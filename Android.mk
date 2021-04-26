@@ -138,6 +138,10 @@ CRYPTOPP_LIB_FILES := $(filter-out crc_simd.cpp,$(CRYPTOPP_LIB_FILES))
 CRYPTOPP_LIB_FILES := $(filter-out gcm_simd.cpp,$(CRYPTOPP_LIB_FILES))
 CRYPTOPP_LIB_FILES := $(filter-out gf2n_simd.cpp,$(CRYPTOPP_LIB_FILES))
 CRYPTOPP_LIB_FILES := $(filter-out lea_simd.cpp,$(CRYPTOPP_LIB_FILES))
+CRYPTOPP_LIB_FILES := $(filter-out lsh256_sse.cpp,$(CRYPTOPP_LIB_FILES))
+CRYPTOPP_LIB_FILES := $(filter-out lsh512_sse.cpp,$(CRYPTOPP_LIB_FILES))
+CRYPTOPP_LIB_FILES := $(filter-out lsh256_avx.cpp,$(CRYPTOPP_LIB_FILES))
+CRYPTOPP_LIB_FILES := $(filter-out lsh512_avx.cpp,$(CRYPTOPP_LIB_FILES))
 CRYPTOPP_LIB_FILES := $(filter-out rijndael_simd.cpp,$(CRYPTOPP_LIB_FILES))
 CRYPTOPP_LIB_FILES := $(filter-out sm4_simd.cpp,$(CRYPTOPP_LIB_FILES))
 CRYPTOPP_LIB_FILES := $(filter-out sha_simd.cpp,$(CRYPTOPP_LIB_FILES))
@@ -292,6 +296,76 @@ ifeq ($(TARGET_ARCH),arm)
 endif
 
 include $(BUILD_STATIC_LIBRARY)
+
+#####################################################################
+# LSH256 and LSH512 using specific ISA.
+
+# Hack because Android.mk does not allow us to specify arch options
+# during compile of a source file. Instead, we have to build a
+# local library with the arch options.
+# https://github.com/weidai11/cryptopp/issues/1015
+
+ifneq ($(filter x86 x86_64,$(TARGET_ARCH)),)
+
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := cryptopp_lsh256_sse
+LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),lsh256_sse.cpp)
+LOCAL_CPPFLAGS := -Wall
+LOCAL_CPP_FEATURES := rtti exceptions
+
+LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -mssse3
+
+CRYPTOPP_LSH256_SSE := cryptopp_lsh256_sse
+
+include $(BUILD_STATIC_LIBRARY)
+
+#####################################################################
+
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := cryptopp_lsh512_sse
+LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),lsh512_sse.cpp)
+LOCAL_CPPFLAGS := -Wall
+LOCAL_CPP_FEATURES := rtti exceptions
+
+LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -mssse3
+
+CRYPTOPP_LSH512_SSE := cryptopp_lsh512_sse
+
+include $(BUILD_STATIC_LIBRARY)
+
+#####################################################################
+
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := cryptopp_lsh256_avx
+LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),lsh256_avx.cpp)
+LOCAL_CPPFLAGS := -Wall
+LOCAL_CPP_FEATURES := rtti exceptions
+
+LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -mavx2
+
+CRYPTOPP_LSH256_AVX := cryptopp_lsh256_avx
+
+include $(BUILD_STATIC_LIBRARY)
+
+#####################################################################
+
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := cryptopp_lsh512_avx
+LOCAL_SRC_FILES := $(addprefix $(CRYPTOPP_PATH),lsh512_avx.cpp)
+LOCAL_CPPFLAGS := -Wall
+LOCAL_CPP_FEATURES := rtti exceptions
+
+LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -mavx2
+
+CRYPTOPP_LSH512_AVX := cryptopp_lsh512_avx
+
+include $(BUILD_STATIC_LIBRARY)
+
+endif
 
 #####################################################################
 # NEON using specific ISA.
@@ -606,6 +680,8 @@ LOCAL_STATIC_LIBRARIES := cpufeatures \
     cryptopp_gcm cryptopp_gf2n \
     cryptopp_lea $(CRYPTOPP_NEON) \
     cryptopp_rijndael cryptopp_sm4 \
+    $(CRYPTOPP_LSH256_SSE) $(CRYPTOPP_LSH256_AVX) \
+    $(CRYPTOPP_LSH512_SSE) $(CRYPTOPP_LSH512_AVX) \
     cryptopp_sha cryptopp_shacal2 \
     cryptopp_simon cryptopp_speck \
     $(CRYPTOPP_SSE)
