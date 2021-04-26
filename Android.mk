@@ -720,6 +720,8 @@ LOCAL_STATIC_LIBRARIES := cpufeatures \
     cryptopp_crc \
     cryptopp_gcm cryptopp_gf2n \
     cryptopp_lea $(CRYPTOPP_NEON) \
+    $(CRYPTOPP_LSH256_SSE) $(CRYPTOPP_LSH256_AVX) \
+    $(CRYPTOPP_LSH512_SSE) $(CRYPTOPP_LSH512_AVX) \
     cryptopp_rijndael cryptopp_sm4 \
     cryptopp_sha cryptopp_shacal2 \
     cryptopp_simon cryptopp_speck \
