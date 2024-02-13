@@ -161,6 +161,10 @@ endif
 # local library with the arch options.
 # https://github.com/weidai11/cryptopp/issues/1015
 
+# Check for the aria_simd.cpp source files. If present,
+# build the aria_simd object.
+ifneq ($(wildcard aria_simd.cpp),)
+
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := cryptopp_aria
@@ -172,7 +176,11 @@ ifeq ($(TARGET_ARCH),arm)
     LOCAL_CPPFLAGS := $(LOCAL_CPPFLAGS) -march=armv7-a -mfpu=neon
 endif
 
+CRYPTOPP_ARIA_SIMD := cryptopp_aria
+
 include $(BUILD_STATIC_LIBRARY)
+
+endif
 
 #####################################################################
 # BLAKE2s using specific ISA.
@@ -673,7 +681,7 @@ endif
 # Include all the local libraries for arch specific compiles.
 # https://github.com/weidai11/cryptopp/issues/1015
 LOCAL_STATIC_LIBRARIES := cpufeatures \
-    cryptopp_aria \
+    $(CRYPTOPP_ARIA_SIMD) \
     cryptopp_blake2s cryptopp_blake2b \
     cryptopp_chacha $(CRYPTOPP_CHACHA_AVX) \
     cryptopp_crc \
@@ -714,7 +722,7 @@ endif
 # Include all the local libraries for arch specific compiles.
 # https://github.com/weidai11/cryptopp/issues/1015
 LOCAL_STATIC_LIBRARIES := cpufeatures \
-    cryptopp_aria \
+    $(CRYPTOPP_ARIA_SIMD) \
     cryptopp_blake2s cryptopp_blake2b \
     cryptopp_chacha $(CRYPTOPP_CHACHA_AVX) \
     cryptopp_crc \
